@@ -94,12 +94,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Db\AccountDb.cs" />
+    <Compile Include="Db\CustomerDb.cs" />
+    <Compile Include="Db\DbContect.cs" />
+    <Compile Include="Db\OrderDetailDb.cs" />
+    <Compile Include="Db\OrdersDb.cs" />
+    <Compile Include="Models\OrderDetailModels.cs" />
+    <Compile Include="Models\OrderModels.cs" />
+    <Compile Include="Models\ProductModels.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\CustomerModels.cs" />
+    <Compile Include="Db\ProductDb.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -125,10 +136,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Db\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
