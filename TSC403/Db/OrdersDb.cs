@@ -1,0 +1,237 @@
+﻿using Microsoft.Data.Sqlite;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TSC403.Models;
+
+namespace TSC403.Db
+{
+    internal class OrdersDb
+    {
+        public string Err { get; set; }
+        public string GenerateOrderNumber()
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+
+                    // ดึงเดือนและปีปัจจุบันในรูปแบบ YY/MM
+                    string currentPrefix = DateTime.Now.ToString("yy/MM", System.Globalization.CultureInfo.CreateSpecificCulture("TH-th"));
+
+                    // ค้นหาเลข Order ล่าสุดที่มี Prefix ตรงกับเดือนปัจจุบัน
+                    command.CommandText = @"
+                SELECT order_number 
+                FROM orders 
+                WHERE order_number LIKE @Prefix 
+                ORDER BY order_number DESC 
+                LIMIT 1;
+            ";
+                    command.Parameters.AddWithValue("@Prefix", currentPrefix + "/%");
+
+                    var lastOrder = command.ExecuteScalar()?.ToString();
+
+                    if (string.IsNullOrEmpty(lastOrder))
+                    {
+                        // ถ้ายังไม่มีข้อมูลของเดือนนี้เลย ให้เริ่มที่ 0001
+                        return $"{currentPrefix}/0001";
+                    }
+                    else
+                    {
+                        // ตัดเอาเลขส่วน SSSS (4 ตัวท้าย) มาเพื่อบวกเพิ่ม
+                        string lastSeqStr = lastOrder.Substring(lastOrder.Length - 4);
+                        if (int.TryParse(lastSeqStr, out int lastSeq))
+                        {
+                            int newSeq = lastSeq + 1;
+                            // คืนค่ารูปแบบ YY/MM/SSSS โดยใช้ D4 เพื่อบังคับให้เป็นเลข 4 หลัก
+                            return $"{currentPrefix}/{newSeq.ToString("D4")}";
+                        }
+
+                        return $"{currentPrefix}/0001";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return null;
+            }
+        }
+
+        public bool AddNew(OrderModels order)
+        {
+            try
+            {
+                using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    con.Open();
+                    string query = "INSERT INTO Orders (LicensePlate, OrderNumber, ProductName, CustomerName, Note, NetWeight, Status) VALUES (@LicensePlate, @OrderNumber, @ProductName, @CustomerName, @Note, @NetWeight, @Status)";
+                    using (SqliteCommand cmd = new SqliteCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@LicensePlate", order.LicensePlate);
+                        cmd.Parameters.AddWithValue("@OrderNumber", order.OrderNumber);
+                        cmd.Parameters.AddWithValue("@ProductName", order.ProductName);
+                        cmd.Parameters.AddWithValue("@CustomerName", order.CustomerName);
+                        cmd.Parameters.AddWithValue("@Note", order.Note);
+                        cmd.Parameters.AddWithValue("@NetWeight", order.NetWeight);
+                        cmd.Parameters.AddWithValue("@Status", order.Status);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+        // ดึงข้อมูลตาม Id
+        public OrderModels SelectById(int id)
+        {
+            OrderModels order = null;
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status FROM orders WHERE id = @Id;";
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            order = new OrderModels
+                            {
+                                Id = reader.GetInt32(0),
+                                LicensePlate = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                OrderNumber = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                ProductName = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                CustomerName = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                Note = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                NetWeight = reader.GetInt32(6),
+                                Status = reader.IsDBNull(7) ? null : reader.GetString(7)
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+            }
+            return order;
+        }
+
+        // ดึงข้อมูลทั้งหมด
+        public List<OrderModels> SelectAll()
+        {
+            var orders = new List<OrderModels>();
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status FROM orders;";
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            orders.Add(new OrderModels
+                            {
+                                Id = reader.GetInt32(0),
+                                LicensePlate = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                OrderNumber = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                ProductName = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                CustomerName = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                Note = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                NetWeight = reader.GetInt32(6),
+                                Status = reader.IsDBNull(7) ? null : reader.GetString(7)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return null;
+            }
+            return orders;
+        }
+
+        // อัปเดตข้อมูลตาม Id
+        public bool UpdateById(OrderModels order)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"
+                        UPDATE orders 
+                        SET license_plate = @LicensePlate, 
+                            order_number = @OrderNumber, 
+                            product_name = @ProductName, 
+                            customer_name = @CustomerName, 
+                            note = @Note, 
+                            net_weight = @NetWeight, 
+                            status = @Status 
+                        WHERE id = @Id;
+                    ";
+
+                    command.Parameters.AddWithValue("@Id", order.Id);
+                    command.Parameters.AddWithValue("@LicensePlate", order.LicensePlate ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@OrderNumber", order.OrderNumber ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ProductName", order.ProductName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@CustomerName", order.CustomerName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Note", order.Note ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@NetWeight", order.NetWeight);
+                    command.Parameters.AddWithValue("@Status", order.Status ?? (object)DBNull.Value);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+        // ลบข้อมูลตาม Id
+        public bool DeleteById(int id)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "DELETE FROM orders WHERE id = @Id;";
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+    }
+}
