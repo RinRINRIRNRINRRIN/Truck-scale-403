@@ -54,19 +54,19 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainMenuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1057, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1057, 29);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // mainMenuToolStripMenuItem
             // 
             this.mainMenuToolStripMenuItem.Name = "mainMenuToolStripMenuItem";
-            this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(98, 29);
+            this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(84, 25);
             this.mainMenuToolStripMenuItem.Text = "EXIT :F12";
             // 
             // dataGridView1
@@ -196,9 +196,9 @@
             // 
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(174, 69);
+            this.label5.Location = new System.Drawing.Point(174, 66);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(154, 32);
+            this.label5.Size = new System.Drawing.Size(154, 42);
             this.label5.TabIndex = 9;
             this.label5.Text = "0";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -208,9 +208,9 @@
             // 
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(713, 69);
+            this.label6.Location = new System.Drawing.Point(713, 66);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(154, 32);
+            this.label6.Size = new System.Drawing.Size(154, 42);
             this.label6.TabIndex = 9;
             this.label6.Text = "0";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
