@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -157,6 +158,49 @@ namespace TSC403.Db
                                 NetWeight = reader.GetInt32(6),
                                 Status = reader.IsDBNull(7) ? null : reader.GetString(7)
                             });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return null;
+            }
+            return orders;
+        }
+
+
+        // ดึงรายการรถที่ยังเป็น  Process 
+        public DataTable SelectStatus(string status)
+        {
+            DataTable orders;
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = $"SELECT a.license_plate, b.datetimes , b.weight" +
+                        $"LEFT JOIN order_detail b " +
+                        $"ON a.id = b.order_id " +
+                        $"FROM orders a " +
+                        $"WHERE a.status = '{status}';";
+
+                    orders = new DataTable();
+                    orders.Columns.Add("LicensePlate");
+                    orders.Columns.Add("DateTime");
+                    orders.Columns.Add("Weight");
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            orders.Rows.Add(
+                                reader.IsDBNull(0) ? null : reader.GetString(0),
+                                reader.IsDBNull(1) ? null : reader.GetString(1),
+                                reader.IsDBNull(2) ? null : reader.GetInt32(2).ToString()
+                            );
                         }
                     }
                 }
