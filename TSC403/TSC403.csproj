@@ -152,10 +152,10 @@
     <Compile Include="Reports\frmShowReport.Designer.cs">
       <DependentUpon>frmShowReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptCarProcess.cs">
+    <Compile Include="Reports\rptTicket.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>rptCarProcess.rpt</DependentUpon>
+      <DependentUpon>rptTicket.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="Pages\frmCarProcess.resx">
@@ -185,9 +185,9 @@
     <EmbeddedResource Include="Reports\frmShowReport.resx">
       <DependentUpon>frmShowReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptCarProcess.rpt">
+    <EmbeddedResource Include="Reports\rptTicket.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptCarProcess.cs</LastGenOutput>
+      <LastGenOutput>rptTicket.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

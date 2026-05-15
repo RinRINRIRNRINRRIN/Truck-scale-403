@@ -16,14 +16,14 @@ namespace TSC403.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class rptCarProcess : ReportClass {
+    public class rptTicket : ReportClass {
         
-        public rptCarProcess() {
+        public rptTicket() {
         }
         
         public override string ResourceName {
             get {
-                return "rptCarProcess.rpt";
+                return "rptTicket.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace TSC403.Reports {
         
         public override string FullResourceName {
             get {
-                return "TSC403.Reports.rptCarProcess.rpt";
+                return "TSC403.Reports.rptTicket.rpt";
             }
             set {
                 // Do nothing
@@ -202,9 +202,9 @@ namespace TSC403.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedrptCarProcess : Component, ICachedReport {
+    public class CachedrptTicket : Component, ICachedReport {
         
-        public CachedrptCarProcess() {
+        public CachedrptTicket() {
         }
         
         [Browsable(false)]
@@ -241,7 +241,7 @@ namespace TSC403.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            rptCarProcess rpt = new rptCarProcess();
+            rptTicket rpt = new rptTicket();
             rpt.Site = this.Site;
             return rpt;
         }
