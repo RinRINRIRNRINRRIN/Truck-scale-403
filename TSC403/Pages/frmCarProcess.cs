@@ -45,5 +45,16 @@ namespace TSC403.Pages
         {
             showCarProcess();
         }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            if (dgv.Rows.Count == 0)
+            {
+                MessageBox.Show("ไม่มีข้อมูลให้พิมพ์", "ไม่มีข้อมูล", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+        }
     }
 }

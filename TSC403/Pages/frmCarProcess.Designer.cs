@@ -35,7 +35,7 @@
             this.cl_weighIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -95,14 +95,15 @@
             this.mainMenuToolStripMenuItem.Text = "MENU";
             this.mainMenuToolStripMenuItem.Click += new System.EventHandler(this.mainMenuToolStripMenuItem_Click);
             // 
-            // button3
+            // btnPrint
             // 
-            this.button3.Location = new System.Drawing.Point(578, 523);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(98, 32);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "พิมพ์รายงาน";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnPrint.Location = new System.Drawing.Point(578, 523);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(98, 32);
+            this.btnPrint.TabIndex = 19;
+            this.btnPrint.Text = "พิมพ์รายงาน";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // frmCarProcess
             // 
@@ -110,7 +111,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(687, 559);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.dgv);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -137,6 +138,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_licensePlate;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_dateIn;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_weighIn;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
