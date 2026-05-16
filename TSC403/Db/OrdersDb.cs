@@ -131,6 +131,7 @@ namespace TSC403.Db
             return order;
         }
 
+        // ดึงข้อมูลตาม orderNumber
         // ดึงข้อมูลทั้งหมด
         public List<OrderModels> SelectAll()
         {
