@@ -132,6 +132,45 @@ namespace TSC403.Db
         }
 
         // ดึงข้อมูลตาม orderNumber
+        public OrderModels SelectByOrderNumber(string orderNumber)
+        {
+            OrderModels order = null;
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status FROM orders WHERE order_number = @orderNumber;";
+                    command.Parameters.AddWithValue("@orderNumber", orderNumber);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            order = new OrderModels
+                            {
+                                Id = reader.GetInt32(0),
+                                LicensePlate = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                OrderNumber = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                ProductName = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                CustomerName = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                Note = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                NetWeight = reader.GetInt32(6),
+                                Status = reader.IsDBNull(7) ? null : reader.GetString(7)
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+            }
+            return order;
+        }
+
+
         // ดึงข้อมูลทั้งหมด
         public List<OrderModels> SelectAll()
         {
