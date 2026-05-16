@@ -32,7 +32,14 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.cl_print = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.cl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_orderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_licensePlate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_dateIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,12 +49,6 @@
             this.cl_netWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_product = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -77,6 +78,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cl_print,
+            this.cl_id,
             this.cl_orderNumber,
             this.cl_licensePlate,
             this.cl_dateIn,
@@ -89,68 +91,10 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 140);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowTemplate.Height = 30;
             this.dataGridView1.Size = new System.Drawing.Size(1057, 470);
             this.dataGridView1.TabIndex = 5;
-            // 
-            // cl_print
-            // 
-            this.cl_print.HeaderText = "";
-            this.cl_print.Name = "cl_print";
-            this.cl_print.ReadOnly = true;
-            // 
-            // cl_orderNumber
-            // 
-            this.cl_orderNumber.HeaderText = "ลำดับที่";
-            this.cl_orderNumber.Name = "cl_orderNumber";
-            this.cl_orderNumber.ReadOnly = true;
-            // 
-            // cl_licensePlate
-            // 
-            this.cl_licensePlate.HeaderText = "ทะเบียนรถ";
-            this.cl_licensePlate.Name = "cl_licensePlate";
-            this.cl_licensePlate.ReadOnly = true;
-            // 
-            // cl_dateIn
-            // 
-            this.cl_dateIn.HeaderText = "วันที่ชั่งเข้า";
-            this.cl_dateIn.Name = "cl_dateIn";
-            this.cl_dateIn.ReadOnly = true;
-            // 
-            // cl_weighIn
-            // 
-            this.cl_weighIn.HeaderText = "น้ำหนักชั่งเข้า";
-            this.cl_weighIn.Name = "cl_weighIn";
-            this.cl_weighIn.ReadOnly = true;
-            // 
-            // cl_dateOut
-            // 
-            this.cl_dateOut.HeaderText = "วันที่ชั่งออก";
-            this.cl_dateOut.Name = "cl_dateOut";
-            this.cl_dateOut.ReadOnly = true;
-            // 
-            // cl_weightOut
-            // 
-            this.cl_weightOut.HeaderText = "น้ำหนักชั่งออก";
-            this.cl_weightOut.Name = "cl_weightOut";
-            this.cl_weightOut.ReadOnly = true;
-            // 
-            // cl_netWeight
-            // 
-            this.cl_netWeight.HeaderText = "น้ำหนักสุทธิ";
-            this.cl_netWeight.Name = "cl_netWeight";
-            this.cl_netWeight.ReadOnly = true;
-            // 
-            // cl_product
-            // 
-            this.cl_product.HeaderText = "สินค้า";
-            this.cl_product.Name = "cl_product";
-            this.cl_product.ReadOnly = true;
-            // 
-            // cl_customer
-            // 
-            this.cl_customer.HeaderText = "บริษัท";
-            this.cl_customer.Name = "cl_customer";
-            this.cl_customer.ReadOnly = true;
+            this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
             // 
             // label1
             // 
@@ -216,6 +160,75 @@
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label6.Click += new System.EventHandler(this.label5_Click);
             // 
+            // cl_print
+            // 
+            this.cl_print.HeaderText = "";
+            this.cl_print.Name = "cl_print";
+            this.cl_print.ReadOnly = true;
+            this.cl_print.Text = "พิมพ์";
+            this.cl_print.UseColumnTextForButtonValue = true;
+            // 
+            // cl_id
+            // 
+            this.cl_id.HeaderText = "Id";
+            this.cl_id.Name = "cl_id";
+            this.cl_id.ReadOnly = true;
+            this.cl_id.Visible = false;
+            // 
+            // cl_orderNumber
+            // 
+            this.cl_orderNumber.HeaderText = "ลำดับที่";
+            this.cl_orderNumber.Name = "cl_orderNumber";
+            this.cl_orderNumber.ReadOnly = true;
+            // 
+            // cl_licensePlate
+            // 
+            this.cl_licensePlate.HeaderText = "ทะเบียนรถ";
+            this.cl_licensePlate.Name = "cl_licensePlate";
+            this.cl_licensePlate.ReadOnly = true;
+            // 
+            // cl_dateIn
+            // 
+            this.cl_dateIn.HeaderText = "วันที่ชั่งเข้า";
+            this.cl_dateIn.Name = "cl_dateIn";
+            this.cl_dateIn.ReadOnly = true;
+            // 
+            // cl_weighIn
+            // 
+            this.cl_weighIn.HeaderText = "น้ำหนักชั่งเข้า";
+            this.cl_weighIn.Name = "cl_weighIn";
+            this.cl_weighIn.ReadOnly = true;
+            // 
+            // cl_dateOut
+            // 
+            this.cl_dateOut.HeaderText = "วันที่ชั่งออก";
+            this.cl_dateOut.Name = "cl_dateOut";
+            this.cl_dateOut.ReadOnly = true;
+            // 
+            // cl_weightOut
+            // 
+            this.cl_weightOut.HeaderText = "น้ำหนักชั่งออก";
+            this.cl_weightOut.Name = "cl_weightOut";
+            this.cl_weightOut.ReadOnly = true;
+            // 
+            // cl_netWeight
+            // 
+            this.cl_netWeight.HeaderText = "น้ำหนักสุทธิ";
+            this.cl_netWeight.Name = "cl_netWeight";
+            this.cl_netWeight.ReadOnly = true;
+            // 
+            // cl_product
+            // 
+            this.cl_product.HeaderText = "สินค้า";
+            this.cl_product.Name = "cl_product";
+            this.cl_product.ReadOnly = true;
+            // 
+            // cl_customer
+            // 
+            this.cl_customer.HeaderText = "บริษัท";
+            this.cl_customer.Name = "cl_customer";
+            this.cl_customer.ReadOnly = true;
+            // 
             // frmDailyReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -237,6 +250,7 @@
             this.Name = "frmDailyReport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "รายงานประจำวัน";
+            this.Load += new System.EventHandler(this.frmDailyReport_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -250,7 +264,14 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainMenuToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridViewButtonColumn cl_print;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cl_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_orderNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_licensePlate;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_dateIn;
@@ -260,11 +281,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_netWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_product;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_customer;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
     }
 }
