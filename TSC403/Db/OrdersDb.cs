@@ -12,7 +12,7 @@ namespace TSC403.Db
     internal class OrdersDb
     {
         public string Err { get; set; }
-        public string GenerateOrderNumber()
+        public string Generateorder_number()
         {
             try
             {
@@ -70,16 +70,19 @@ namespace TSC403.Db
                 using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
                 {
                     con.Open();
-                    string query = "INSERT INTO Orders (LicensePlate, OrderNumber, ProductName, CustomerName, Note, NetWeight, Status) VALUES (@LicensePlate, @OrderNumber, @ProductName, @CustomerName, @Note, @NetWeight, @Status)";
+                    string query = "INSERT INTO orders (license_plate, order_number, product_name, product_code, customer_name, customer_code,note, net_weight, status) " +
+                        "VALUES (@license_plate, @order_number, @product_name,@product_code, @customer_name, @product_name,@note, @net_weight, @status)";
                     using (SqliteCommand cmd = new SqliteCommand(query, con))
                     {
-                        cmd.Parameters.AddWithValue("@LicensePlate", order.LicensePlate);
-                        cmd.Parameters.AddWithValue("@OrderNumber", order.OrderNumber);
-                        cmd.Parameters.AddWithValue("@ProductName", order.ProductName);
-                        cmd.Parameters.AddWithValue("@CustomerName", order.CustomerName);
-                        cmd.Parameters.AddWithValue("@Note", order.Note);
-                        cmd.Parameters.AddWithValue("@NetWeight", order.NetWeight);
-                        cmd.Parameters.AddWithValue("@Status", order.Status);
+                        cmd.Parameters.AddWithValue("@license_plate", order.LicensePlate);
+                        cmd.Parameters.AddWithValue("@order_number", order.OrderNumber);
+                        cmd.Parameters.AddWithValue("@product_name", order.ProductName);
+                        cmd.Parameters.AddWithValue("@product_code", order.ProductCode);
+                        cmd.Parameters.AddWithValue("@customer_name", order.CustomerName);
+                        cmd.Parameters.AddWithValue("@customer_code", order.CustomerCode);
+                        cmd.Parameters.AddWithValue("@note", order.Note);
+                        cmd.Parameters.AddWithValue("@net_weight", order.NetWeight);
+                        cmd.Parameters.AddWithValue("@status", order.Status);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -102,7 +105,7 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status FROM orders WHERE id = @Id;";
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status, product_code,customer_code FROM orders WHERE id = @Id;";
                     command.Parameters.AddWithValue("@Id", id);
 
                     using (var reader = command.ExecuteReader())
@@ -117,8 +120,10 @@ namespace TSC403.Db
                                 ProductName = reader.IsDBNull(3) ? null : reader.GetString(3),
                                 CustomerName = reader.IsDBNull(4) ? null : reader.GetString(4),
                                 Note = reader.IsDBNull(5) ? null : reader.GetString(5),
-                                NetWeight = reader.GetInt32(6),
-                                Status = reader.IsDBNull(7) ? null : reader.GetString(7)
+                                NetWeight = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
+                                Status = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                ProductCode = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                CustomerCode = reader.IsDBNull(9) ? null : reader.GetString(9),
                             };
                         }
                     }
@@ -131,8 +136,8 @@ namespace TSC403.Db
             return order;
         }
 
-        // ดึงข้อมูลตาม orderNumber
-        public OrderModels SelectByOrderNumber(string orderNumber)
+        // ดึงข้อมูลตาม order_number
+        public OrderModels SelectByorder_number(string order_number)
         {
             OrderModels order = null;
             try
@@ -141,8 +146,8 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status FROM orders WHERE order_number = @orderNumber;";
-                    command.Parameters.AddWithValue("@orderNumber", orderNumber);
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status, product_code,customer_code orders WHERE order_number = @order_number;";
+                    command.Parameters.AddWithValue("@order_number", order_number);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -156,8 +161,10 @@ namespace TSC403.Db
                                 ProductName = reader.IsDBNull(3) ? null : reader.GetString(3),
                                 CustomerName = reader.IsDBNull(4) ? null : reader.GetString(4),
                                 Note = reader.IsDBNull(5) ? null : reader.GetString(5),
-                                NetWeight = reader.GetInt32(6),
-                                Status = reader.IsDBNull(7) ? null : reader.GetString(7)
+                                NetWeight = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
+                                Status = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                ProductCode = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                CustomerCode = reader.IsDBNull(9) ? null : reader.GetString(9),
                             };
                         }
                     }
@@ -181,7 +188,7 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status FROM orders;";
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status, product_code,customer_code FORM orders;";
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -195,8 +202,10 @@ namespace TSC403.Db
                                 ProductName = reader.IsDBNull(3) ? null : reader.GetString(3),
                                 CustomerName = reader.IsDBNull(4) ? null : reader.GetString(4),
                                 Note = reader.IsDBNull(5) ? null : reader.GetString(5),
-                                NetWeight = reader.GetInt32(6),
-                                Status = reader.IsDBNull(7) ? null : reader.GetString(7)
+                                NetWeight = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
+                                Status = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                ProductCode = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                CustomerCode = reader.IsDBNull(9) ? null : reader.GetString(9),
                             });
                         }
                     }
@@ -212,7 +221,7 @@ namespace TSC403.Db
 
 
         // ดึงรายการรถที่ยังเป็น  Process 
-        public DataTable SelectStatus(string status)
+        public DataTable Selectstatus(string status)
         {
             DataTable orders;
             try
@@ -221,16 +230,18 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"SELECT a.license_plate, b.datetimes , b.weight" +
+                    command.CommandText = $"SELECT a.license_plate, b.datetimes , b.weight,a.customer_name,a.product_name" +
                         $"LEFT JOIN order_detail b " +
                         $"ON a.id = b.order_id " +
                         $"FROM orders a " +
                         $"WHERE a.status = '{status}';";
 
                     orders = new DataTable();
-                    orders.Columns.Add("LicensePlate");
+                    orders.Columns.Add("license_plate");
                     orders.Columns.Add("DateTime");
                     orders.Columns.Add("Weight");
+                    orders.Columns.Add("Customer");
+                    orders.Columns.Add("Product");
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -239,7 +250,9 @@ namespace TSC403.Db
                             orders.Rows.Add(
                                 reader.IsDBNull(0) ? null : reader.GetString(0),
                                 reader.IsDBNull(1) ? null : reader.GetString(1),
-                                reader.IsDBNull(2) ? null : reader.GetInt32(2).ToString()
+                                reader.IsDBNull(2) ? null : reader.GetInt32(2).ToString(),
+                                reader.IsDBNull(3) ? null : reader.GetString(3),
+                                reader.IsDBNull(4) ? null : reader.GetString(4)
                             );
                         }
                     }
@@ -264,24 +277,28 @@ namespace TSC403.Db
                     var command = connection.CreateCommand();
                     command.CommandText = @"
                         UPDATE orders 
-                        SET license_plate = @LicensePlate, 
-                            order_number = @OrderNumber, 
-                            product_name = @ProductName, 
-                            customer_name = @CustomerName, 
-                            note = @Note, 
-                            net_weight = @NetWeight, 
-                            status = @Status 
+                        SET license_plate = @license_plate, 
+                            order_number = @order_number, 
+                            product_name = @product_name, 
+                            customer_name = @customer_name, 
+                            product_code = @product_code, 
+                            customer_code = @customer_code, 
+                            note = @note, 
+                            net_weight = @net_weight, 
+                            status = @status 
                         WHERE id = @Id;
                     ";
 
                     command.Parameters.AddWithValue("@Id", order.Id);
-                    command.Parameters.AddWithValue("@LicensePlate", order.LicensePlate ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@OrderNumber", order.OrderNumber ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@ProductName", order.ProductName ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@CustomerName", order.CustomerName ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@Note", order.Note ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@NetWeight", order.NetWeight);
-                    command.Parameters.AddWithValue("@Status", order.Status ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@license_plate", order.LicensePlate ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@order_number", order.OrderNumber ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@product_name", order.ProductName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@customer_name", order.CustomerName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@product_code", order.ProductCode ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@customer_code", order.CustomerCode ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@note", order.Note ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@net_weight", order.NetWeight);
+                    command.Parameters.AddWithValue("@status", order.Status ?? (object)DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
