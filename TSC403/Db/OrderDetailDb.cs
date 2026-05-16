@@ -78,6 +78,8 @@ namespace TSC403.Db
             return detail;
         }
 
+
+
         // ดึงข้อมูลทั้งหมด
         public List<OrderDetailModels> SelectAll()
         {
@@ -89,6 +91,41 @@ namespace TSC403.Db
                     connection.Open();
                     var command = connection.CreateCommand();
                     command.CommandText = "SELECT id, order_id, weight_type, weight, datetimes FROM order_detail;";
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            details.Add(new OrderDetailModels
+                            {
+                                Id = reader.GetInt32(0),
+                                OrderId = reader.GetInt32(1),
+                                WeightType = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                Weight = reader.GetInt32(3),
+                                Datetimes = reader.IsDBNull(4) ? null : reader.GetString(4)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return null;
+            }
+            return details;
+        }
+
+        public List<OrderDetailModels> SelectByOrderId(int order_id)
+        {
+            var details = new List<OrderDetailModels>();
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = $"SELECT id, order_id, weight_type, weight, datetimes FROM order_detail WHERE order_id = {order_id};";
 
                     using (var reader = command.ExecuteReader())
                     {
