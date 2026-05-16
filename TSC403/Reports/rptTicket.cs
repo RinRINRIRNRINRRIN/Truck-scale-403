@@ -130,7 +130,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptCusmoter {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptDateIn {
             get {
                 return this.DataDefinition.ParameterFields[5];
             }
@@ -138,7 +138,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptDateIn {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptDateOut {
             get {
                 return this.DataDefinition.ParameterFields[6];
             }
@@ -146,7 +146,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptDateOut {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptTimeIn {
             get {
                 return this.DataDefinition.ParameterFields[7];
             }
@@ -154,7 +154,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptTimeIn {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptTimeOut {
             get {
                 return this.DataDefinition.ParameterFields[8];
             }
@@ -162,7 +162,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptTimeOut {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptWeightIn {
             get {
                 return this.DataDefinition.ParameterFields[9];
             }
@@ -170,7 +170,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptWeightIn {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptWeightOut {
             get {
                 return this.DataDefinition.ParameterFields[10];
             }
@@ -178,7 +178,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptWeightOut {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptOrderNumber {
             get {
                 return this.DataDefinition.ParameterFields[11];
             }
@@ -186,7 +186,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptOrderNumber {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptNetWeight {
             get {
                 return this.DataDefinition.ParameterFields[12];
             }
@@ -194,7 +194,7 @@ namespace TSC403.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_rptNetWeight {
+        public CrystalDecisions.Shared.IParameterField Parameter_rptCustomer {
             get {
                 return this.DataDefinition.ParameterFields[13];
             }
