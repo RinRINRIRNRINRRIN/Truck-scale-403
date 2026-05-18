@@ -17,16 +17,18 @@ namespace TSC403.Reports
 {
     public partial class frmShowReport : Form
     {
-        public frmShowReport(int orderId, string reportType)
+        public frmShowReport(int orderId, string reportType, DataTable tbForTotalReport)
         {
             InitializeComponent();
 
             _orderId = orderId;
             _reportType = reportType;
+            _tbForTotalReport = tbForTotalReport;
         }
 
         private readonly int _orderId = 0;
         private readonly string _reportType;
+        private readonly DataTable _tbForTotalReport;
 
         void defineParameterTicket()
         {
@@ -125,7 +127,7 @@ namespace TSC403.Reports
                         string dates = datetimes.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
                         string times = datetimes.ToString("HH:mm:ss");
 
-                        dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times,  netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
+                        dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
                         totalList++;
                         totalWeight += netWeight;
                     }
@@ -156,6 +158,57 @@ namespace TSC403.Reports
             }
         }
 
+        void defineParameterTotalReport()
+        {
+            // ดึงรายการมาแสดงในรายงานรวม 
+            try
+            {
+                rptDailyReport rptDailyReport = new rptDailyReport();
+                string path = $"{Application.StartupPath}\\Reports\\rptTotalReport.rpt";
+                rptDailyReport.Load(path);
+
+                int totalWeight = 0, totalList = 0;
+
+                // กำหนดค่า data table ไปที่ data set สำหรับออกรายงาน
+                DataSet1 dataSet1 = new DataSet1();
+                // กำหนดค่า field ใน data set
+                foreach (DataRow rw in _tbForTotalReport.Rows)
+                {
+                    string orderNumber = rw["OrderNumber"].ToString();
+                    string licensePlate = rw["LicensePlate"].ToString();
+                    DateTime datetimes = DateTime.Parse(rw["DateIn"].ToString());
+                    int weightIn = int.Parse(rw["WeightIn"].ToString());
+                    int weightOut = int.Parse(rw["WeightOut"].ToString());
+                    int netWeight = int.Parse(rw["NetWeight"].ToString());
+                    string customerName = rw["CustomerName"].ToString();
+                    string productName = rw["ProductName"].ToString();
+
+                    string dates = datetimes.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
+                    string times = datetimes.ToString("HH:mm:ss");
+
+                    dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
+                    totalList++;
+                    totalWeight += netWeight;
+                }
+
+                // กำหนดค่า report paremter
+
+                rptDailyReport.SetDataSource(dataSet1.Tables["DailyList"]);
+                rptDailyReport.SetParameterValue("rptTotalWeight", totalWeight);
+                rptDailyReport.SetParameterValue("rptTotalList", totalList);
+
+                crystalReportViewer1.EnableRefresh = false;
+                crystalReportViewer1.ReportSource = rptDailyReport;
+                crystalReportViewer1.Zoom(150);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("เกิดข้อผิดผลาดในการกำหนดค่ารายงาน \nError : " + ex.Message, "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+        }
+
         private void frmShowReport_Load(object sender, EventArgs e)
         {
             // เช็คว่าผู้ใช้ต้องการแสดง report แบบไหน
@@ -168,6 +221,7 @@ namespace TSC403.Reports
                     defineParameterDailyReport();
                     break;
                 case "TOTAL_REPORT": // รายงานรวม
+                    defineParameterTotalReport();
                     break;
             }
         }
