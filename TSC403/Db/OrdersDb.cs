@@ -219,7 +219,7 @@ namespace TSC403.Db
         }
 
         // ดึงรายงานตาม query
-        public DataTable SelectByQuery(string dateIn, string dateOut, string customer, string product, string license_plate)
+        public DataTable SelectByQuery(string dateIn, string dateOut, string customer, string product, string license_plate,string status)
         {
             DataTable tb = new DataTable();
             try
@@ -263,9 +263,10 @@ namespace TSC403.Db
 
 
                     if (!string.IsNullOrEmpty(dateIn) && !string.IsNullOrEmpty(dateOut))
-                        query += " d_in.datetimes BETWEEN @dateIn AND @dateOut "; // ใช้ Parameter และใส่ชื่อคอลัมน์ให้ถูกต้อง (แก้ไขจาก 'd_in.d_in' เป็น 'd_in.datetimes')";
+                        query += "AND  d_in.datetimes BETWEEN @dateIn AND @dateOut "; // ใช้ Parameter และใส่ชื่อคอลัมน์ให้ถูกต้อง (แก้ไขจาก 'd_in.d_in' เป็น 'd_in.datetimes')";
 
                     // กำหนดค่าจริงของ query ให้กับ command Text
+                    query += $" AND o.status = '{status}'";
                     query += " ORDER BY o.order_number DESC;";
                     command.CommandText = query;
 
@@ -308,7 +309,7 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"SELECT a.id, a.license_plate, b.datetimes , b.weight,a.customer_name,a.product_name " +
+                    command.CommandText = $"SELECT a.id, a.license_plate, b.datetimes , b.weight,a.customer_name,a.product_name,a.order_number  " +
                         $"FROM orders a " +
 
                         $"LEFT JOIN order_detail b " +
@@ -322,6 +323,7 @@ namespace TSC403.Db
                     orders.Columns.Add("Weight");
                     orders.Columns.Add("Customer");
                     orders.Columns.Add("Product");
+                    orders.Columns.Add("OrderNumber");
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -333,7 +335,8 @@ namespace TSC403.Db
                                 reader.IsDBNull(2) ? null : reader.GetString(2),
                                 reader.IsDBNull(3) ? null : reader.GetString(3),
                                 reader.IsDBNull(4) ? null : reader.GetString(4),
-                                reader.IsDBNull(5) ? null : reader.GetString(5)
+                                reader.IsDBNull(5) ? null : reader.GetString(5),
+                                reader.IsDBNull(6) ? null : reader.GetString(6)
                             );
                         }
                     }
