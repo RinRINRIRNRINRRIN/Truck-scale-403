@@ -32,6 +32,15 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ขอมลรToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.รายงานวนนToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.รายงานToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ขอมลบรษทToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ขอมลสนคาToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.รถคางชงToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eXITToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
@@ -71,9 +80,73 @@
             // 
             // mainMenuToolStripMenuItem
             // 
+            this.mainMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ขอมลรToolStripMenuItem,
+            this.รายงานวนนToolStripMenuItem,
+            this.รายงานToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.ขอมลบรษทToolStripMenuItem,
+            this.ขอมลสนคาToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.รถคางชงToolStripMenuItem,
+            this.eXITToolStripMenuItem});
             this.mainMenuToolStripMenuItem.Name = "mainMenuToolStripMenuItem";
             this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.mainMenuToolStripMenuItem.Text = "MainMenu";
+            // 
+            // ขอมลรToolStripMenuItem
+            // 
+            this.ขอมลรToolStripMenuItem.Name = "ขอมลรToolStripMenuItem";
+            this.ขอมลรToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ขอมลรToolStripMenuItem.Text = "ชั่ง";
+            // 
+            // รายงานวนนToolStripMenuItem
+            // 
+            this.รายงานวนนToolStripMenuItem.Name = "รายงานวนนToolStripMenuItem";
+            this.รายงานวนนToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.รายงานวนนToolStripMenuItem.Text = "รายงานวันนี้";
+            // 
+            // รายงานToolStripMenuItem
+            // 
+            this.รายงานToolStripMenuItem.Name = "รายงานToolStripMenuItem";
+            this.รายงานToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.รายงานToolStripMenuItem.Text = "รายงาน";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(123, 6);
+            // 
+            // ขอมลบรษทToolStripMenuItem
+            // 
+            this.ขอมลบรษทToolStripMenuItem.Name = "ขอมลบรษทToolStripMenuItem";
+            this.ขอมลบรษทToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ขอมลบรษทToolStripMenuItem.Text = "ข้อมูลบริษัท";
+            this.ขอมลบรษทToolStripMenuItem.Click += new System.EventHandler(this.ขอมลบรษทToolStripMenuItem_Click);
+            // 
+            // ขอมลสนคาToolStripMenuItem
+            // 
+            this.ขอมลสนคาToolStripMenuItem.Name = "ขอมลสนคาToolStripMenuItem";
+            this.ขอมลสนคาToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ขอมลสนคาToolStripMenuItem.Text = "ข้อมูลสินค้า";
+            this.ขอมลสนคาToolStripMenuItem.Click += new System.EventHandler(this.ขอมลสนคาToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
+            // 
+            // รถคางชงToolStripMenuItem
+            // 
+            this.รถคางชงToolStripMenuItem.Name = "รถคางชงToolStripMenuItem";
+            this.รถคางชงToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.รถคางชงToolStripMenuItem.Text = "รถค้างชั่ง";
+            // 
+            // eXITToolStripMenuItem
+            // 
+            this.eXITToolStripMenuItem.Name = "eXITToolStripMenuItem";
+            this.eXITToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.eXITToolStripMenuItem.Text = "EXIT";
             // 
             // aboutToolStripMenuItem
             // 
@@ -102,6 +175,7 @@
             this.button1.TabIndex = 5;
             this.button1.Text = "ชั่งนน.";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -111,6 +185,7 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "รายงานวันนี้";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -120,6 +195,7 @@
             this.button3.TabIndex = 7;
             this.button3.Text = "รายงาน";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -142,32 +218,38 @@
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Black;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.Location = new System.Drawing.Point(41, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(424, 59);
             this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
+            this.label1.Text = "โปรแกรมชั่งน้ำหนักรถบรรทุก";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Black;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
             this.label2.Location = new System.Drawing.Point(41, 420);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(424, 49);
             this.label2.TabIndex = 6;
-            this.label2.Text = "label2";
+            this.label2.Text = "บริษัท ไทยเครื่องชั่ง จำกัด";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
             this.label3.BackColor = System.Drawing.Color.Black;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Red;
             this.label3.Location = new System.Drawing.Point(41, 475);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(424, 33);
             this.label3.TabIndex = 7;
-            this.label3.Text = "label3";
+            this.label3.Text = "ติดต่อ 034-397-682-5";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
@@ -180,7 +262,7 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Truck Scale Version 4.03";
             // 
-            // Form1
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -199,7 +281,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "โปรแกรมเครื่องชั่งรถบรรทุก";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -228,6 +310,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem ขอมลรToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem รายงานวนนToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem รายงานToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem ขอมลบรษทToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ขอมลสนคาToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem รถคางชงToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eXITToolStripMenuItem;
     }
 }
 

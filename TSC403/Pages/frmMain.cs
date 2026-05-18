@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TSC403.Pages;
 
 namespace TSC403
 {
@@ -79,6 +81,46 @@ namespace TSC403
 
             command.ExecuteNonQuery();
             Console.WriteLine("สร้างโครงสร้างตารางเริ่มต้นสำเร็จ!");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmWeight frmWeight = new frmWeight();
+            this.Hide();
+            frmWeight.ShowDialog();
+            this.Show();
+        }
+
+        private void ขอมลบรษทToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCustomer frmCustomer = new frmCustomer();
+            this.Hide();
+            frmCustomer.ShowDialog();
+            this.Show();
+        }
+
+        private void ขอมลสนคาToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmProduct frmProduct = new frmProduct();
+            this.Hide();
+            frmProduct.ShowDialog();
+            this.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            frmDailyReport frmDailyReport = new frmDailyReport();
+            this.Hide();
+            frmDailyReport.ShowDialog();
+            this.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            frmSearch frmSearch = new frmSearch();
+            this.Hide();
+            frmSearch.ShowDialog();
+            this.Show();
         }
     }
 }
