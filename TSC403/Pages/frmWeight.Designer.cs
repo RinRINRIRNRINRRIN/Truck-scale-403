@@ -103,6 +103,7 @@
             this.txtLicensePlate.Name = "txtLicensePlate";
             this.txtLicensePlate.Size = new System.Drawing.Size(296, 50);
             this.txtLicensePlate.TabIndex = 2;
+            this.txtLicensePlate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLicensePlate_KeyDown);
             // 
             // panel1
             // 

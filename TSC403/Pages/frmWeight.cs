@@ -20,6 +20,16 @@ namespace TSC403.Pages
         public frmWeight()
         {
             InitializeComponent();
+
+            // ตั้งค่า Timer สำหรับตรวจจับน้ำหนักนิ่ง
+            stableTimer = new Timer();
+            stableTimer.Interval = 1000; // ทำงานทุกๆ 1 วินาที
+            stableTimer.Tick += StableTimer_Tick;
+
+            // --- (เพิ่ม) ตั้งค่า Timer สำหรับเช็คสัญญาณขาดหาย 3 วินาที ---
+            timeoutTimer = new Timer();
+            timeoutTimer.Interval = 3000; // 3000 ms = 3 วินาที
+            timeoutTimer.Tick += TimeoutTimer_Tick;
         }
 
         private string WeightState { get; set; } = "FIRST";
@@ -27,6 +37,11 @@ namespace TSC403.Pages
 
         private int WeightIn { get; set; } = 0;
 
+        private int lastWeight = -1;       // ใช้เก็บน้ำหนักล่าสุดเพื่อเปรียบเทียบ
+        private int stableTicks = 0;       // ใช้สำหรับนับรอบวินาทีที่น้ำหนักนิ่ง
+
+        private Timer stableTimer;         // Timer สำหรับตรวจเช็คน้ำหนักบน UI Thread
+        private Timer timeoutTimer;        // (เพิ่ม) ตัวใหม่สำหรับดักสัญญาณหาย 3 วินาที
         void clearForm()
         {
             foreach (ComboBox item in panel1.Controls.OfType<ComboBox>())
@@ -40,6 +55,12 @@ namespace TSC403.Pages
             txtLicensePlate.Enabled = true;
             OrderId = 0;
             WeightIn = 0;
+
+            // --- เพิ่มตรงนี้เพื่อรีเซ็ตระบบน้ำหนักนิ่ง ---
+            lastWeight = -1;
+            stableTicks = 0;
+            stableTimer.Stop();
+            btnSave.Enabled = false; // ปิดปุ่มบันทึกไว้ก่อนเสมอจนกว่าจะนิ่ง
         }
 
         bool saveFirstWeight(int weight)
@@ -166,6 +187,41 @@ namespace TSC403.Pages
             return true;
         }
 
+        private void StableTimer_Tick(object sender, EventArgs e)
+        {
+            int currentWeight;
+            if (int.TryParse(lblWeight.Text, out currentWeight))
+            {
+                // 1. ตรวจสอบว่า น้ำหนักปัจจุบัน เท่ากับ น้ำหนักในวินาทีที่แล้ว หรือไม่
+                if (currentWeight == lastWeight && currentWeight >= 1000)
+                {
+                    stableTicks++; // ถ้าเท่ากัน บวกรอบความนิ่งเพิ่มขึ้น 1 วิ
+                }
+                else
+                {
+                    stableTicks = 0; // ถ้าไม่เท่ากัน (น้ำหนักแกว่ง) ให้รีเซ็ตเริ่มนับ 0 ใหม่ทันที
+                    btnSave.Enabled = false; // ปิดปุ่มบันทึกซะถ้าน้ำหนักสวิงกลับมาแกว่งอีก
+                }
+
+                // 2. เก็บน้ำหนักรอบนี้ไว้เปรียบเทียบในวินาทีถัดไป
+                lastWeight = currentWeight;
+
+                // 3. ถ้านิ่งติดต่อกันครบ 4 วินาที (stableTicks = 4)
+                if (stableTicks >= 4)
+                {
+                    btnSave.Enabled = true; // เปิดให้ปุ่มบันทึกกดได้!
+
+                    // แถม: คุณสามารถย้อมสีป้ายlblWeight หรือเปลี่ยนสีปุ่มให้คนชั่งรู้ได้ด้วยนะ เช่น
+                    // btnSave.BackColor = Color.Green; 
+                }
+            }
+            else
+            {
+                // ถ้าดึงค่าน้ำหนักไม่ได้/เกิด Error ให้รีเซ็ตระบบ
+                stableTicks = 0;
+                btnSave.Enabled = false;
+            }
+        }
 
 
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -182,7 +238,28 @@ namespace TSC403.Pages
                     // Update the label on the UI thread
                     this.Invoke(new Action(() =>
                     {
+                        timeoutTimer.Stop();
+                        timeoutTimer.Start();
+
                         lblWeight.Text = weightInt.ToString();
+                        // ถ้าน้ำหนักมากกว่า 1000 Kg (ตามเงื่อนไขเดิมของคุณ) ให้เปิดระบบตรวจจับความนิ่ง
+                        if (weightInt >= SystemModels.CapacityScale)
+                        {
+                            // ถ้ารถขับลงไปแล้ว หรือน้ำหนักน้อยกว่า 1000 ให้ปิดและเคลียร์ค่า
+                            stableTimer.Stop();
+                            stableTicks = 0;
+                            lastWeight = -1;
+                            btnSave.Enabled = false;
+
+                        }
+                        else
+                        {
+                            if (!stableTimer.Enabled)
+                            {
+                                stableTimer.Start(); // เริ่มให้ Timer ทำงานนับวิ
+                            }
+                        }
+
                     }));
                 }
                 else
@@ -279,6 +356,8 @@ namespace TSC403.Pages
                 cbbCodeCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 cbbCodeCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
             }
+
+            timeoutTimer.Start();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -398,6 +477,9 @@ namespace TSC403.Pages
 
         private void frmWeight_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // สั่งหยุดทำงานและทำลายล้าง Timer ทั้งสองตัว
+            if (stableTimer != null) { stableTimer.Stop(); stableTimer.Dispose(); }
+            if (timeoutTimer != null) { timeoutTimer.Stop(); timeoutTimer.Dispose(); }
             // 1. ยกเลิกการผูก Event ทันที เพื่อไม่ให้มี DataReceived รอบใหม่ทำงานขึ้นมาอีก
             serialPort1.DataReceived -= serialPort1_DataReceived;
 
@@ -414,6 +496,44 @@ namespace TSC403.Pages
                 }
                 catch { /* ป้องกัน Error จังหวะตัดการเชื่อมต่อ */ }
             });
+        }
+
+        private void txtLicensePlate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // เอาทะเบียนรถไปหาใน car process ว่ามีรถค้างอยู่ไหม ถ้ามีให้แสดงรายการรถคันนั้น
+                OrdersDb ordersDb = new OrdersDb();
+
+                DataTable tb = ordersDb.CheckLicensePlateInProcess(txtLicensePlate.Text.Trim());
+                if (tb.Rows.Count > 0)
+                {
+                    WeightState = "SECOND";
+                    txtLicensePlate.Enabled = false;
+                    btnWeightOut.Visible = false;
+                    foreach (DataRow row in tb.Rows)
+                    {
+                        OrderId = int.Parse(row["Id"].ToString());
+                        cbbCodeCustomer.Text = row["CustomerCode"].ToString();
+                        cbbCustomer.Text = row["Customer"].ToString();
+                        cbbCodeProduct.Text = row["ProductCode"].ToString();
+                        cbbProduct.Text = row["Product"].ToString();
+                        WeightIn = int.Parse(row["WeightIn"].ToString());
+                    }
+                }
+            }
+        }
+
+        private void TimeoutTimer_Tick(object sender, EventArgs e)
+        {
+            // เนื่องจาก Timer ตัวนี้รันบน UI Thread อยู่แล้ว สามารถสั่งเปลี่ยนค่า Control ได้โดยตรงเลยครับ
+            lblWeight.Text = "ERROR";
+            lblWeight.ForeColor = Color.Red; // เปลี่ยนตัวหนังสือเป็นสีแดงเตือนผู้ใช้งาน
+
+            // หยุดระบบตรวจจับความนิ่งทันที เพราะไม่มีข้อมูลมาให้เช็คแล้ว
+            stableTimer.Stop();
+            stableTicks = 0;
+            lastWeight = -1;
         }
     }
 }
