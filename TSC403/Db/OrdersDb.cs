@@ -244,7 +244,12 @@ namespace TSC403.Db
                                    "FROM orders o " +
                                    "LEFT JOIN order_detail d_in ON o.id = d_in.order_id AND d_in.weight_type = 'FIRST' " +
                                    "LEFT JOIN order_detail d_out ON o.id = d_out.order_id AND d_out.weight_type = 'SECOND' " +
-                                   "WHERE d_in.datetimes BETWEEN @dateIn AND @dateOut "; // ใช้ Parameter และใส่ชื่อคอลัมน์ให้ถูก
+                                   "WHERE 1=1 ";
+
+                    //if (!string.IsNullOrEmpty(dateOut) || !string.IsNullOrEmpty(dateIn) || !string.IsNullOrEmpty(customer) || !string.IsNullOrEmpty(product) || !string.IsNullOrEmpty(license_plate))
+                    //{
+                    //    query += "WHERE ";
+                    //}
 
                     // 2. ตรวจสอบและต่อเงื่อนไข (เพิ่มเว้นวรรคด้านหน้าป้องกันคำสั่งติดกัน)
                     if (!string.IsNullOrEmpty(customer))
@@ -256,17 +261,26 @@ namespace TSC403.Db
                     if (!string.IsNullOrEmpty(license_plate))
                         query += " AND o.license_plate LIKE @license_plate";
 
-                    query += " ORDER BY o.order_number DESC;";
 
+                    if (!string.IsNullOrEmpty(dateIn) && !string.IsNullOrEmpty(dateOut))
+                        query += " d_in.datetimes BETWEEN @dateIn AND @dateOut "; // ใช้ Parameter และใส่ชื่อคอลัมน์ให้ถูกต้อง (แก้ไขจาก 'd_in.d_in' เป็น 'd_in.datetimes')";
+
+                    // กำหนดค่าจริงของ query ให้กับ command Text
+                    query += " ORDER BY o.order_number DESC;";
                     command.CommandText = query;
 
                     // 3. ผูกค่า Parameters (ช่วยป้องกัน SQL Injection และจัดการเรื่อง Single Quote อัตโนมัติ)
-                    command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
-                    command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
-
-                    if (!string.IsNullOrEmpty(customer)) command.Parameters.AddWithValue("@customer", customer);
-                    if (!string.IsNullOrEmpty(product)) command.Parameters.AddWithValue("@product", product);
-                    if (!string.IsNullOrEmpty(license_plate)) command.Parameters.AddWithValue("@license_plate", license_plate);
+                    if (!string.IsNullOrEmpty(customer))
+                        command.Parameters.AddWithValue("@customer", $"%{customer}%"); // ใช้ LIKE กับ Wildcard
+                    if (!string.IsNullOrEmpty(product))
+                        command.Parameters.AddWithValue("@product", $"%{product}%"); // ใช้ LIKE กับ Wildcard
+                    if (!string.IsNullOrEmpty(license_plate))
+                        command.Parameters.AddWithValue("@license_plate", $"%{license_plate}%"); // ใช้ LIKE กับ Wildcard
+                    if (!string.IsNullOrEmpty(dateIn) && !string.IsNullOrEmpty(dateOut))
+                    {
+                        command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
+                        command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
+                    }
 
                     // 4. ใช้ Reader ควบคู่กับ tb.Load เพื่อเทข้อมูลเข้า DataTable โดยตรง
                     using (var reader = command.ExecuteReader())

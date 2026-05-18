@@ -56,7 +56,7 @@ namespace TSC403.Pages
                 if (clName == "cl_print")
                 {
                     int order_id = int.Parse(dataGridView1.Rows[e.RowIndex].Cells["cl_id"].Value.ToString());
-                    frmShowReport frmShowReport = new frmShowReport(order_id, "TICKET");
+                    frmShowReport frmShowReport = new frmShowReport(order_id, "TICKET", null);
                     this.Hide();
                     frmShowReport.ShowDialog();
                     this.Show();
@@ -71,7 +71,7 @@ namespace TSC403.Pages
 
         private void btnPrintDailyReport_Click(object sender, EventArgs e)
         {
-            frmShowReport frmShowReport = new frmShowReport(0, "DAILY");
+            frmShowReport frmShowReport = new frmShowReport(0, "DAILY", null);
             this.Hide();
             frmShowReport.ShowDialog();
             this.Show();

@@ -151,7 +151,7 @@ namespace TSC403.Pages
                 ordersDb.UpdateById(orderModels);
 
                 // print ticket
-                frmShowReport frmShowReport = new frmShowReport(OrderId, "TICKET");
+                frmShowReport frmShowReport = new frmShowReport(OrderId, "TICKET", null);
                 this.Hide();
                 frmShowReport.ShowDialog();
                 this.Show();
