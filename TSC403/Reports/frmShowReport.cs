@@ -172,7 +172,6 @@ namespace TSC403.Reports
                 }
 
                 // กำหนดค่า report paremter
-
                 rptDailyReport.SetDataSource(dataSet1.Tables["DailyList"]);
                 rptDailyReport.SetParameterValue("rptTotalWeight", totalWeight);
                 rptDailyReport.SetParameterValue("rptTotalList", totalList);
