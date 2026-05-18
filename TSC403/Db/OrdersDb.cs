@@ -146,7 +146,7 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status, product_code,customer_code orders WHERE order_number = @order_number;";
+                    command.CommandText = "SELECT id, license_plate, order_number, product_name, customer_name, note, net_weight, status, product_code,customer_code FROM orders WHERE order_number = @order_number;";
                     command.Parameters.AddWithValue("@order_number", order_number);
 
                     using (var reader = command.ExecuteReader())
@@ -176,7 +176,6 @@ namespace TSC403.Db
             }
             return order;
         }
-
 
         // ดึงข้อมูลทั้งหมด
         public List<OrderModels> SelectAll()
@@ -219,6 +218,71 @@ namespace TSC403.Db
             return orders;
         }
 
+        // ดึงรายงานตาม query
+        public DataTable SelectByQuery(string dateIn, string dateOut, string customer, string product, string license_plate)
+        {
+            DataTable tb = new DataTable();
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+
+                    // 1. เขียน Query ยุบรวม และแก้ไขชื่อคอลัมน์ d_in ให้ถูกต้อง (d_in.datetimes)
+                    string query = "SELECT " +
+                                   "o.Id as 'Id', " +
+                                   "o.order_number as 'OrderNumber', " +
+                                   "o.license_plate as 'LicensePlate', " +
+                                   "d_in.datetimes as 'DateIn', " +
+                                   "d_in.weight as 'WeightIn', " +
+                                   "d_out.datetimes as 'DateOut', " + // แก้ไขตัวสะกดจาก 'DateOu' เป็น 'DateOut'
+                                   "d_out.weight as 'WeightOut', " +
+                                   "o.net_weight as 'NetWeight', " +
+                                   "o.product_name as 'ProductName', " +
+                                   "o.customer_name as 'CustomerName' " +
+                                   "FROM orders o " +
+                                   "LEFT JOIN order_detail d_in ON o.id = d_in.order_id AND d_in.weight_type = 'FIRST' " +
+                                   "LEFT JOIN order_detail d_out ON o.id = d_out.order_id AND d_out.weight_type = 'SECOND' " +
+                                   "WHERE d_in.datetimes BETWEEN @dateIn AND @dateOut "; // ใช้ Parameter และใส่ชื่อคอลัมน์ให้ถูก
+
+                    // 2. ตรวจสอบและต่อเงื่อนไข (เพิ่มเว้นวรรคด้านหน้าป้องกันคำสั่งติดกัน)
+                    if (!string.IsNullOrEmpty(customer))
+                        query += " AND o.customer_name LIKE @customer";
+
+                    if (!string.IsNullOrEmpty(product))
+                        query += " AND o.product_name LIKE @product";
+
+                    if (!string.IsNullOrEmpty(license_plate))
+                        query += " AND o.license_plate LIKE @license_plate";
+
+                    query += " ORDER BY o.order_number DESC;";
+
+                    command.CommandText = query;
+
+                    // 3. ผูกค่า Parameters (ช่วยป้องกัน SQL Injection และจัดการเรื่อง Single Quote อัตโนมัติ)
+                    command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
+                    command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
+
+                    if (!string.IsNullOrEmpty(customer)) command.Parameters.AddWithValue("@customer", customer);
+                    if (!string.IsNullOrEmpty(product)) command.Parameters.AddWithValue("@product", product);
+                    if (!string.IsNullOrEmpty(license_plate)) command.Parameters.AddWithValue("@license_plate", license_plate);
+
+                    // 4. ใช้ Reader ควบคู่กับ tb.Load เพื่อเทข้อมูลเข้า DataTable โดยตรง
+                    using (var reader = command.ExecuteReader())
+                    {
+                        tb.Load(reader); // บรรทัดนี้จะดึงโครงสร้างคอลัมน์และข้อมูลทั้งหมดใส่ DataTable ให้ทันทีครับ
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message; // ตัวแปรเก็บ Error ส่วนกลางของคุณ
+                return null;
+            }
+
+            return tb; // คืนค่ากลับไปเป็น DataTable พร้อมเอาไปผูกกับ DataGridView ได้ทันที
+        }
 
         // ดึงรายการรถที่ยังเป็น  Process 
         public DataTable Selectstatus(string status)
@@ -230,14 +294,16 @@ namespace TSC403.Db
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"SELECT a.license_plate, b.datetimes , b.weight,a.customer_name,a.product_name" +
+                    command.CommandText = $"SELECT a.id, a.license_plate, b.datetimes , b.weight,a.customer_name,a.product_name " +
+                        $"FROM orders a " +
+
                         $"LEFT JOIN order_detail b " +
                         $"ON a.id = b.order_id " +
-                        $"FROM orders a " +
                         $"WHERE a.status = '{status}';";
 
                     orders = new DataTable();
-                    orders.Columns.Add("license_plate");
+                    orders.Columns.Add("Id");
+                    orders.Columns.Add("LicensePlate");
                     orders.Columns.Add("DateTime");
                     orders.Columns.Add("Weight");
                     orders.Columns.Add("Customer");
@@ -250,9 +316,10 @@ namespace TSC403.Db
                             orders.Rows.Add(
                                 reader.IsDBNull(0) ? null : reader.GetString(0),
                                 reader.IsDBNull(1) ? null : reader.GetString(1),
-                                reader.IsDBNull(2) ? null : reader.GetInt32(2).ToString(),
+                                reader.IsDBNull(2) ? null : reader.GetString(2),
                                 reader.IsDBNull(3) ? null : reader.GetString(3),
-                                reader.IsDBNull(4) ? null : reader.GetString(4)
+                                reader.IsDBNull(4) ? null : reader.GetString(4),
+                                reader.IsDBNull(5) ? null : reader.GetString(5)
                             );
                         }
                     }
@@ -278,7 +345,6 @@ namespace TSC403.Db
                     command.CommandText = @"
                         UPDATE orders 
                         SET license_plate = @license_plate, 
-                            order_number = @order_number, 
                             product_name = @product_name, 
                             customer_name = @customer_name, 
                             product_code = @product_code, 
@@ -291,7 +357,6 @@ namespace TSC403.Db
 
                     command.Parameters.AddWithValue("@Id", order.Id);
                     command.Parameters.AddWithValue("@license_plate", order.LicensePlate ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@order_number", order.OrderNumber ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@product_name", order.ProductName ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@customer_name", order.CustomerName ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@product_code", order.ProductCode ?? (object)DBNull.Value);
