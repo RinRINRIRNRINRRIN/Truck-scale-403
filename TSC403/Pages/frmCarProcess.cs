@@ -23,7 +23,7 @@ namespace TSC403.Pages
         void showCarProcess()
         {
             OrdersDb ordersDb = new OrdersDb();
-            DataTable tbs = ordersDb.SelectStatus("Process");
+            DataTable tbs = ordersDb.Selectstatus("Process");
             if (tbs == null)
             {
                 MessageBox.Show("เกิดข้อผิดพลาดในการดึงข้อมูล: " + ordersDb.Err, "เกิดข้อผิดผลาด");

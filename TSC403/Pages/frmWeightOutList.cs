@@ -33,7 +33,7 @@ namespace TSC403.Pages
             // show data to datagridview
             dgv.Rows.Clear();
             foreach (DataRow rw in tbs.Rows)
-                dgv.Rows.Add(rw["LicensePlate"].ToString(), rw["DateTime"].ToString(), rw["Weight"].ToString(), rw["Customer"].ToString(), rw["Product"].ToString());
+                dgv.Rows.Add(rw["Id"].ToString(),rw["LicensePlate"].ToString(), rw["Weight"].ToString(), rw["DateTime"].ToString(), rw["Customer"].ToString(), rw["Product"].ToString());
         }
 
         private void frmWeightOutList_Load(object sender, EventArgs e)
