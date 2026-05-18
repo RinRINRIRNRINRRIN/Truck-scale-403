@@ -11,7 +11,7 @@ namespace TSC403.Db
     internal class DbContect
     {
         // กำหนดที่อยู่ของไฟล์ฐานข้อมูลตรงนี้ครับ (สามารถเปลี่ยน Path ได้)
-        public static string ConnectionString { get; set; } = Application.StartupPath + "\\TSC403.db";
+        public static string ConnectionString { get; set; } = $"Data Source={Application.StartupPath}\\TSC403.db;Mode=ReadWriteCreate;";
 
         // Method สำหรับทดสอบการเชื่อมต่อ
         public static bool TestConnection()
