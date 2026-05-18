@@ -13,6 +13,7 @@ namespace TSC403.Db
         // กำหนดที่อยู่ของไฟล์ฐานข้อมูลตรงนี้ครับ (สามารถเปลี่ยน Path ได้)
         public static string ConnectionString { get; set; } = $"Data Source={Application.StartupPath}\\TSC403.db;Mode=ReadWriteCreate;";
 
+        public static string Err;
         // Method สำหรับทดสอบการเชื่อมต่อ
         public static bool TestConnection()
         {
@@ -27,7 +28,7 @@ namespace TSC403.Db
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"เกิดข้อผิดพลาดในการเชื่อมต่อ: {ex.Message}");
+                Err = ex.Message;
                 return false;
             }
         }
