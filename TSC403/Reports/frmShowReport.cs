@@ -17,13 +17,13 @@ namespace TSC403.Reports
 {
     public partial class frmShowReport : Form
     {
-        public frmShowReport(int orderId, string reportType, DataTable tbForTotalReport)
+        public frmShowReport(int orderId, string reportType, DataTable tbForTotalReportOrCarProcess)
         {
             InitializeComponent();
 
             _orderId = orderId;
             _reportType = reportType;
-            _tbForTotalReport = tbForTotalReport;
+            _tbForTotalReport = tbForTotalReportOrCarProcess;
         }
 
         private readonly int _orderId = 0;
@@ -89,70 +89,50 @@ namespace TSC403.Reports
 
         void defineParameterDailyReport()
         {
-            // ดึงรายการ order detail มาแสดงในรายงานประจำวัน
-            OrdersDb ordersDb = new OrdersDb();
-            string today = DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
-            DataTable tbs = ordersDb.SelectByQuery(today, today, "", "", "");
-            if (tbs == null)
+
+            try
             {
-                MessageBox.Show("เกิดข้อผิดผลาดในการดึงข้อมูลรายวัน \nError : " + ordersDb.Err, "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-                return;
-            }
+                rptDailyReport rptDailyReport = new rptDailyReport();
+                string path = $"{Application.StartupPath}\\Reports\\rptDailyReport.rpt";
+                rptDailyReport.Load(path);
 
-            if (tbs.Rows.Count > 0)
-            {
-                try
+                int totalWeight = 0, totalList = 0;
+
+                // กำหนดค่า data table ไปที่ data set สำหรับออกรายงาน
+                DataSet1 dataSet1 = new DataSet1();
+                // กำหนดค่า field ใน data set
+                foreach (DataRow rw in _tbForTotalReport.Rows)
                 {
-                    rptDailyReport rptDailyReport = new rptDailyReport();
-                    string path = $"{Application.StartupPath}\\Reports\\rptDailyReport.rpt";
-                    rptDailyReport.Load(path);
+                    string orderNumber = rw["OrderNumber"].ToString();
+                    string licensePlate = rw["LicensePlate"].ToString();
+                    DateTime datetimes = DateTime.Parse(rw["DateIn"].ToString());
+                    int weightIn = int.Parse(rw["WeightIn"].ToString());
+                    int weightOut = int.Parse(rw["WeightOut"].ToString());
+                    int netWeight = int.Parse(rw["NetWeight"].ToString());
+                    string customerName = rw["CustomerName"].ToString();
+                    string productName = rw["ProductName"].ToString();
 
-                    int totalWeight = 0, totalList = 0;
+                    string dates = datetimes.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
+                    string times = datetimes.ToString("HH:mm:ss");
 
-                    // กำหนดค่า data table ไปที่ data set สำหรับออกรายงาน
-                    DataSet1 dataSet1 = new DataSet1();
-                    // กำหนดค่า field ใน data set
-                    foreach (DataRow rw in tbs.Rows)
-                    {
-                        string orderNumber = rw["OrderNumber"].ToString();
-                        string licensePlate = rw["LicensePlate"].ToString();
-                        DateTime datetimes = DateTime.Parse(rw["DateIn"].ToString());
-                        int weightIn = int.Parse(rw["WeightIn"].ToString());
-                        int weightOut = int.Parse(rw["WeightOut"].ToString());
-                        int netWeight = int.Parse(rw["NetWeight"].ToString());
-                        string customerName = rw["CustomerName"].ToString();
-                        string productName = rw["ProductName"].ToString();
-
-                        string dates = datetimes.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
-                        string times = datetimes.ToString("HH:mm:ss");
-
-                        dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
-                        totalList++;
-                        totalWeight += netWeight;
-                    }
-
-                    // กำหนดค่า report paremter
-
-                    rptDailyReport.SetDataSource(dataSet1.Tables["DailyList"]);
-                    rptDailyReport.SetParameterValue("rptTotalWeight", totalWeight);
-                    rptDailyReport.SetParameterValue("rptTotalList", totalList);
-
-                    crystalReportViewer1.EnableRefresh = false;
-                    crystalReportViewer1.ReportSource = rptDailyReport;
-                    crystalReportViewer1.Zoom(150);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("เกิดข้อผิดผลาดในการกำหนดค่ารายงาน \nError : " + ex.Message, "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Close();
-                    return;
+                    dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
+                    totalList++;
+                    totalWeight += netWeight;
                 }
 
+                // กำหนดค่า report paremter
+
+                rptDailyReport.SetDataSource(dataSet1.Tables["DailyList"]);
+                rptDailyReport.SetParameterValue("rptTotalWeight", totalWeight);
+                rptDailyReport.SetParameterValue("rptTotalList", totalList);
+
+                crystalReportViewer1.EnableRefresh = false;
+                crystalReportViewer1.ReportSource = rptDailyReport;
+                crystalReportViewer1.Zoom(150);
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("ไม่พบรายงานในวันนี้", "ไม่พบรายงาน", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("เกิดข้อผิดผลาดในการกำหนดค่ารายงาน \nError : " + ex.Message, "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
             }
@@ -163,7 +143,7 @@ namespace TSC403.Reports
             // ดึงรายการมาแสดงในรายงานรวม 
             try
             {
-                rptDailyReport rptDailyReport = new rptDailyReport();
+                rptTotalReport rptDailyReport = new rptTotalReport();
                 string path = $"{Application.StartupPath}\\Reports\\rptTotalReport.rpt";
                 rptDailyReport.Load(path);
 
@@ -209,6 +189,48 @@ namespace TSC403.Reports
             }
         }
 
+
+        void defineCarProcess()
+        {
+            // ดึงรายการมาแสดงในรายงานรวม 
+            try
+            {
+                rptCarProcess rptDailyReport = new rptCarProcess();
+                string path = $"{Application.StartupPath}\\Reports\\rptCarProcess.rpt";
+                rptDailyReport.Load(path);
+
+                DataSet1 dataSet1 = new DataSet1();
+                foreach (DataRow rw in _tbForTotalReport.Rows)
+                {
+
+                    string licensePlate = rw["LicensePlate"].ToString();
+                    DateTime dateTime = DateTime.Parse(rw["DateTime"].ToString());
+                    string product = rw["Product"].ToString();
+                    string customer = rw["Customer"].ToString();
+                    string weight = rw["Weight"].ToString();
+
+                    string date = dateTime.ToString("yyyy-MM-dd");
+                    string time = dateTime.ToString("HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
+
+                    dataSet1.Tables["CarProcess"].Rows.Add(licensePlate, date, time, product, customer, weight);
+                }
+
+
+                rptDailyReport.SetDataSource(dataSet1.Tables["CarProcess"]);
+
+
+                crystalReportViewer1.EnableRefresh = false;
+                crystalReportViewer1.ReportSource = rptDailyReport;
+                crystalReportViewer1.Zoom(150);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("เกิดข้อผิดผลาดในการกำหนดค่ารายงาน \nError : " + ex.Message, "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+        }
+
         private void frmShowReport_Load(object sender, EventArgs e)
         {
             // เช็คว่าผู้ใช้ต้องการแสดง report แบบไหน
@@ -222,6 +244,9 @@ namespace TSC403.Reports
                     break;
                 case "TOTAL_REPORT": // รายงานรวม
                     defineParameterTotalReport();
+                    break;
+                case "CAR_PROCESS": // รถค้างชั่ง
+                    defineCarProcess();
                     break;
             }
         }
