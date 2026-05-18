@@ -29,12 +29,18 @@ namespace TSC403.Pages
             dataGridView1.Rows.Clear();
             if (tb.Rows.Count > 0 || tb != null)
             {
+                int totalWeight = 0;
                 // loop แสดงข้อมูล
                 foreach (DataRow rw in tb.Rows)
                 {
                     dataGridView1.Rows.Add("", rw["Id"].ToString(), rw["OrderNumber"].ToString(), rw["LicensePlate"].ToString(), rw["DateIn"].ToString(), rw["WeightIn"].ToString(), rw["DateOut"].ToString(), rw["WeightOut"].ToString(), rw["NetWeight"].ToString(), rw["ProductName"].ToString(), rw["CustomerName"].ToString());
-
+                    totalWeight += int.Parse(rw["NetWeight"].ToString());
                 }
+
+                // show total weight 
+                label6.Text = totalWeight.ToString("#,###");
+                // show total list
+                label5.Text = tb.Rows.Count.ToString("#,###");
             }
         }
 

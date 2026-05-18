@@ -28,10 +28,18 @@ namespace TSC403.Pages
         void LoadData()
         {
             dgv.Rows.Clear();
+            int totalWeight = 0, totalList = 0;
             foreach (DataRow rw in _dataTable.Rows)
             {
                 dgv.Rows.Add("", rw["ID"].ToString(), rw["OrderNumber"].ToString(), rw["LicensePlate"].ToString(), rw["DateIn"].ToString(), rw["WeightIn"].ToString(), rw["DateOut"].ToString(), rw["WeightOut"].ToString(), rw["NetWeight"].ToString(), rw["ProductName"].ToString(), rw["CustomerName"].ToString());
+                totalWeight += int.Parse(rw["NetWeight"].ToString());
+
             }
+
+            // show total weight 
+            label6.Text = totalWeight.ToString("#,###");
+            // show total list
+            label5.Text = _dataTable.Rows.Count.ToString("#,###");
         }
 
         private void frmHistory_Load(object sender, EventArgs e)
@@ -68,7 +76,7 @@ namespace TSC403.Pages
                             // --- [ส่วนอื่น ๆ ของ Excel: ส่วนหัวรายงานตามภาพ] ---
                             // แถวที่ 1: หัวข้อรายงาน
                             string reportTitle = "รายงาน";
-     
+
                             worksheet.Cell("A1").Value = reportTitle;
                             worksheet.Cell("A1").Style.Font.Bold = true;
                             worksheet.Cell("A1").Style.Font.FontSize = 16;
@@ -207,6 +215,6 @@ namespace TSC403.Pages
                 }
             }
         }
-        }
     }
+}
 
