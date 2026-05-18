@@ -29,6 +29,12 @@ namespace TSC403.Pages
             string dateOut = DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
             tb = ordersDb.SelectByQuery(dateIn, dateOut, "", "", "", "Success");
             dataGridView1.Rows.Clear();
+            if(tb == null)
+            {
+                // alert message when error 
+               MessageBox.Show("เกิดข้อผิดพลาดในการดึงข้อมูล กรุณาลองใหม่อีกครั้ง \n Error : " + ordersDb.Err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (tb.Rows.Count > 0 || tb != null)
             {
                 int totalWeight = 0;
