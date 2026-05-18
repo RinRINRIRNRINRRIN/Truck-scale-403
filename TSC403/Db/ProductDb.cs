@@ -75,6 +75,40 @@ namespace TSC403.Db
             return product;
         }
 
+        public ProductModels SelectByName(string product_name)
+        {
+            ProductModels product = null;
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT product_code, product_name FROM products WHERE product_name = @product_name;";
+                    command.Parameters.AddWithValue("@product_name", product_name);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            product = new ProductModels
+                            {
+                                ProductCode = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                ProductName = reader.IsDBNull(1) ? null : reader.GetString(1)
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+            }
+            return product;
+        }
+
+
+
         // ดึงข้อมูลสินค้าทั้งหมด
         public List<ProductModels> SelectAll()
         {
