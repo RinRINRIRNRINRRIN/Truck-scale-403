@@ -36,10 +36,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnPrintReport = new System.Windows.Forms.Button();
             this.cl_print = new System.Windows.Forms.DataGridViewButtonColumn();
             this.cl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_orderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +47,10 @@
             this.cl_netWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_product = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.btnExcel = new System.Windows.Forms.Button();
+            this.btnPrintReport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -142,42 +142,6 @@
             this.dgv.Size = new System.Drawing.Size(1057, 411);
             this.dgv.TabIndex = 11;
             // 
-            // mainMenuToolStripMenuItem
-            // 
-            this.mainMenuToolStripMenuItem.Name = "mainMenuToolStripMenuItem";
-            this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(84, 25);
-            this.mainMenuToolStripMenuItem.Text = "EXIT :F12";
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mainMenuToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1072, 29);
-            this.menuStrip1.TabIndex = 10;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(863, 537);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 32);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "EXCEL";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // btnPrintReport
-            // 
-            this.btnPrintReport.Location = new System.Drawing.Point(967, 537);
-            this.btnPrintReport.Name = "btnPrintReport";
-            this.btnPrintReport.Size = new System.Drawing.Size(98, 32);
-            this.btnPrintReport.TabIndex = 18;
-            this.btnPrintReport.Text = "พิมพ์รายงาน";
-            this.btnPrintReport.UseVisualStyleBackColor = true;
-            this.btnPrintReport.Click += new System.EventHandler(this.btnPrintReport_Click);
-            // 
             // cl_print
             // 
             this.cl_print.HeaderText = "";
@@ -247,6 +211,43 @@
             this.cl_customer.Name = "cl_customer";
             this.cl_customer.ReadOnly = true;
             // 
+            // mainMenuToolStripMenuItem
+            // 
+            this.mainMenuToolStripMenuItem.Name = "mainMenuToolStripMenuItem";
+            this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(84, 25);
+            this.mainMenuToolStripMenuItem.Text = "EXIT :F12";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1072, 29);
+            this.menuStrip1.TabIndex = 10;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.Location = new System.Drawing.Point(863, 537);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(98, 32);
+            this.btnExcel.TabIndex = 18;
+            this.btnExcel.Text = "EXCEL";
+            this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
+            // btnPrintReport
+            // 
+            this.btnPrintReport.Location = new System.Drawing.Point(967, 537);
+            this.btnPrintReport.Name = "btnPrintReport";
+            this.btnPrintReport.Size = new System.Drawing.Size(98, 32);
+            this.btnPrintReport.TabIndex = 18;
+            this.btnPrintReport.Text = "พิมพ์รายงาน";
+            this.btnPrintReport.UseVisualStyleBackColor = true;
+            this.btnPrintReport.Click += new System.EventHandler(this.btnPrintReport_Click);
+            // 
             // frmHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -254,7 +255,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1072, 577);
             this.Controls.Add(this.btnPrintReport);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -290,7 +291,7 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.ToolStripMenuItem mainMenuToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnExcel;
         private System.Windows.Forms.Button btnPrintReport;
         private System.Windows.Forms.DataGridViewButtonColumn cl_print;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_id;
