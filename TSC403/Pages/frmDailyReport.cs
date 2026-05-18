@@ -20,12 +20,14 @@ namespace TSC403.Pages
             InitializeComponent();
         }
 
+        private DataTable tb;
+
         void showReportToday()
         {
             OrdersDb ordersDb = new OrdersDb();
             string dateIn = DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
             string dateOut = DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
-            DataTable tb = ordersDb.SelectByQuery(dateIn, dateOut, "", "", "");
+            tb = ordersDb.SelectByQuery(dateIn, dateOut, "", "", "", "Success");
             dataGridView1.Rows.Clear();
             if (tb.Rows.Count > 0 || tb != null)
             {
@@ -77,7 +79,7 @@ namespace TSC403.Pages
 
         private void btnPrintDailyReport_Click(object sender, EventArgs e)
         {
-            frmShowReport frmShowReport = new frmShowReport(0, "DAILY", null);
+            frmShowReport frmShowReport = new frmShowReport(0, "DAILY", tb);
             this.Hide();
             frmShowReport.ShowDialog();
             this.Show();

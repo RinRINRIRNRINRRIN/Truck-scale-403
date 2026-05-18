@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TSC403.Db;
 using TSC403.Models;
+using TSC403.Reports;
 
 namespace TSC403.Pages
 {
@@ -19,11 +20,14 @@ namespace TSC403.Pages
             InitializeComponent();
         }
 
+        private DataTable dataTable;
 
         void showCarProcess()
         {
             OrdersDb ordersDb = new OrdersDb();
             DataTable tbs = ordersDb.Selectstatus("Process");
+            dataTable = tbs; // Store the data in a class-level variable for later use
+
             if (tbs == null)
             {
                 MessageBox.Show("เกิดข้อผิดพลาดในการดึงข้อมูล: " + ordersDb.Err, "เกิดข้อผิดผลาด");
@@ -54,7 +58,10 @@ namespace TSC403.Pages
                 return;
             }
 
-
+            frmShowReport frmShowReport = new frmShowReport(0, "CAR_PROCESS", dataTable);
+            this.Hide();
+            frmShowReport.ShowDialog();
+            this.Show();
         }
     }
 }
