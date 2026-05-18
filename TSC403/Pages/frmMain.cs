@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TSC403.Db;
+using TSC403.Functions;
+using TSC403.Models;
 using TSC403.Pages;
+using TSC403.Reports;
 
 namespace TSC403
 {
@@ -23,45 +28,61 @@ namespace TSC403
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // 1. กำหนด Path ของไฟล์ฐานข้อมูล (สมมติว่าให้อยู่ในโฟลเดอร์ Data)
-            string dbFilePath = Application.StartupPath + "\\TSC403.db";
-            string connectionString = $"Data Source={dbFilePath};Mode=ReadWriteCreate;";
-
-            // 2. ตรวจสอบว่ามีไฟล์ฐานข้อมูลอยู่แล้วหรือไม่
-            bool isNewDatabase = !File.Exists(dbFilePath);
-
-            // 3. ตรวจสอบและสร้างโฟลเดอร์ (ถ้าระบุ Path ไว้แล้วโฟลเดอร์ยังไม่มี)
-            string directoryPath = Path.GetDirectoryName(dbFilePath);
-            if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
+            // ดึงคาจาก Registry มาเพื่อเช็คข้อมูลของระบบ
+            Registryz registryz = new Registryz();
+            if (!registryz.checkRegistryFile())
             {
-                Directory.CreateDirectory(directoryPath);
-                Console.WriteLine($"สร้างโฟลเดอร์ใหม่ที่: {directoryPath}");
+                // เปิดหน้าเพื่อให้ admin กำหนดค่าต่าง ๆของระบบ
+                frmSystemConfig frmSystemConfig = new frmSystemConfig();
+                frmSystemConfig.ShowDialog();
+                return;
             }
 
-            // 4. เริ่มการเชื่อมต่อ
-            using (var connection = new SqliteConnection(connectionString))
+            // เช็คว่าโปรแกรมหมดอายุหรือยัง
+            DateTime dateCurrent = DateTime.ParseExact(SystemModels.DateCurrent, "yyyy-MM-dd", null);
+            DateTime dateExpire = DateTime.ParseExact(SystemModels.DateExpire, "yyyy-MM-dd", null);
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
+            DateTime currentConvert = DateTime.Parse(currentDate);
+            DateTime lastDateInSystem = DateTime.Parse(SystemModels.DateCurrent);
+
+            if (SystemModels.DateExpire != "FOREVER")
             {
-                try
+                if (currentConvert > dateExpire)
                 {
-                    connection.Open();
-
-                    if (isNewDatabase)
-                    {
-                        Console.WriteLine("ไม่พบไฟล์ฐานข้อมูล ระบบได้สร้างไฟล์ใหม่เรียบร้อยแล้ว!");
-
-                        // ถ้านี่คือฐานข้อมูลใหม่ ให้รันคำสั่งสร้างตาราง
-                        InitializeDatabase(connection);
-                    }
-                    else
-                    {
-                        Console.WriteLine("พบไฟล์ฐานข้อมูลเดิม เชื่อมต่อสำเร็จ!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล: {ex.Message}");
+                    MessageBox.Show("โปรแกรมหมดอายุการใช้งานแล้ว กรุณาติดต่อผู้ดูแลระบบ! \nError : " + DbContect.Err, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    frmSystemConfig frmSystemConfig = new frmSystemConfig();
+                    frmSystemConfig.ShowDialog();
+                    return;
                 }
             }
+
+
+            // เช็คว่าผู้ใช้มีการเปลี่ยนวันที่คอมพิวเตอร์หรือไม่ โดยเช็คจาก SystemModels.DateCurrent
+
+            if (currentConvert < lastDateInSystem)
+            {
+                MessageBox.Show("พบการเปลี่ยนวันที่คอมพิวเตอร์");
+                frmSystemConfig frmSystemConfig = new frmSystemConfig();
+                frmSystemConfig.ShowDialog();
+                return;
+            }
+
+
+
+
+            // หากไม่มีปัญหาให้อัพเดทวันที่ปัจจุบันใน Registry เพื่อใช้ในการเช็คครั้งถัดไป
+            registryz.updateDateCurrent();
+
+
+            // เช็คการเชื่อมต่อฐานข้อมูลและสร้างตารางถ้าจำเป็น
+            if (!DbContect.TestConnection())
+            {
+                MessageBox.Show("ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาตรวจสอบการตั้งค่าและลองใหม่อีกครั้ง! \nError : " + DbContect.Err, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+
+
+            lblProgramIdAndCompany.Text = $"{SystemModels.ProgramId} - {SystemModels.TicketCompany}";
         }
 
         static void InitializeDatabase(SqliteConnection connection)
@@ -74,9 +95,7 @@ namespace TSC403
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     EmpCode TEXT UNIQUE NOT NULL,
                     FullName TEXT NOT NULL
-                );
-                
-              
+                );       
             ";
 
             command.ExecuteNonQuery();
@@ -129,6 +148,17 @@ namespace TSC403
             this.Hide();
             frmCarProcess.ShowDialog();
             this.Show();
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F9)
+            {
+                frmSystemConfig frmSystemConfig = new frmSystemConfig();
+                this.Hide();
+                frmSystemConfig.ShowDialog(); ;
+                this.Show();
+            }
         }
     }
 }

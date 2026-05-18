@@ -134,10 +134,14 @@
     <Compile Include="Db\DbContect.cs" />
     <Compile Include="Db\OrderDetailDb.cs" />
     <Compile Include="Db\OrdersDb.cs" />
+    <Compile Include="Functions\AESEncrystion.cs" />
     <Compile Include="Functions\IndicatorScale.cs" />
+    <Compile Include="Functions\Md5.cs" />
+    <Compile Include="Functions\Registryz.cs" />
     <Compile Include="Models\OrderDetailModels.cs" />
     <Compile Include="Models\OrderModels.cs" />
     <Compile Include="Models\ProductModels.cs" />
+    <Compile Include="Models\SystemModels.cs" />
     <Compile Include="Pages\frmCarProcess.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +186,12 @@
     </Compile>
     <Compile Include="Pages\frmSearch.Designer.cs">
       <DependentUpon>frmSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\frmSystemConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\frmSystemConfig.Designer.cs">
+      <DependentUpon>frmSystemConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\frmWeight.cs">
       <SubType>Form</SubType>
@@ -258,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\frmSearch.resx">
       <DependentUpon>frmSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\frmSystemConfig.resx">
+      <DependentUpon>frmSystemConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\frmWeight.resx">
       <DependentUpon>frmWeight.cs</DependentUpon>

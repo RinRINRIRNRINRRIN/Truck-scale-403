@@ -219,7 +219,7 @@ namespace TSC403.Db
         }
 
         // ดึงรายงานตาม query
-        public DataTable SelectByQuery(string dateIn, string dateOut, string customer, string product, string license_plate,string status)
+        public DataTable SelectByQuery(string dateIn, string dateOut, string customer, string product, string license_plate, string status)
         {
             DataTable tb = new DataTable();
             try
@@ -311,7 +311,6 @@ namespace TSC403.Db
                     var command = connection.CreateCommand();
                     command.CommandText = $"SELECT a.id, a.license_plate, b.datetimes , b.weight,a.customer_name,a.product_name,a.order_number  " +
                         $"FROM orders a " +
-
                         $"LEFT JOIN order_detail b " +
                         $"ON a.id = b.order_id " +
                         $"WHERE a.status = '{status}';";
@@ -416,5 +415,72 @@ namespace TSC403.Db
             return true;
         }
 
+        // เช็คว่ามีทะเบียนรถที่กำลัง Process อยู่หรือไม่ โดยค้นหาจากทะเบียนรถ
+        public DataTable CheckLicensePlateInProcess(string license_plate)
+        {
+            DataTable orders;
+            try
+            {
+                orders = new DataTable();
+                orders.Columns.Add("Id");
+                orders.Columns.Add("LicensePlate");
+                orders.Columns.Add("DateTime");
+                orders.Columns.Add("WeightIn");
+                orders.Columns.Add("Customer");
+                orders.Columns.Add("Product");
+                orders.Columns.Add("OrderNumber");
+                orders.Columns.Add("ProductCode");
+                orders.Columns.Add("CustomerCode");
+
+
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = $"SELECT a.id, " +
+                        $"a.license_plate, " +
+                        $"b.datetimes , " +
+                        $"b.weight, " +
+                        $"a.customer_name, " +
+                        $"a.product_name, " +
+                        $"a.order_number, " +
+                        $"a.product_code, " +
+                        $"a.customer_code " +
+                       $"FROM orders a " +
+                       $"LEFT JOIN order_detail b " +
+                       $"ON a.id = b.order_id " +
+                       $"WHERE a.status = 'Process' and a.license_plate = @license_plate;";
+                    command.Parameters.AddWithValue("@license_plate", license_plate);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            orders.Rows.Add(
+                                reader.IsDBNull(0) ? null : reader.GetString(0),
+                                reader.IsDBNull(1) ? null : reader.GetString(1),
+                                reader.IsDBNull(2) ? null : reader.GetString(2),
+                                reader.IsDBNull(3) ? null : reader.GetString(3),
+                                reader.IsDBNull(4) ? null : reader.GetString(4),
+                                reader.IsDBNull(5) ? null : reader.GetString(5),
+                                reader.IsDBNull(6) ? null : reader.GetString(6),
+                                reader.IsDBNull(7) ? null : reader.GetString(7),
+                                reader.IsDBNull(8) ? null : reader.GetString(8)
+
+
+                            );
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return null; // ในกรณีเกิดข้อผิดพลาด ให้ถือว่าไม่มีทะเบียนรถที่กำลัง Process อยู่
+            }
+            return orders;
+
+        }
     }
+
 }

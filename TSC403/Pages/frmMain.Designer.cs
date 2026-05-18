@@ -52,6 +52,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.lblProgramIdAndCompany = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -263,12 +264,24 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Truck Scale Version 4.03";
             // 
+            // lblProgramIdAndCompany
+            // 
+            this.lblProgramIdAndCompany.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProgramIdAndCompany.ForeColor = System.Drawing.Color.Green;
+            this.lblProgramIdAndCompany.Location = new System.Drawing.Point(3, 559);
+            this.lblProgramIdAndCompany.Name = "lblProgramIdAndCompany";
+            this.lblProgramIdAndCompany.Size = new System.Drawing.Size(494, 21);
+            this.lblProgramIdAndCompany.TabIndex = 9;
+            this.lblProgramIdAndCompany.Text = "Truck Scale Version 4.03";
+            this.lblProgramIdAndCompany.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(508, 589);
+            this.Controls.Add(this.lblProgramIdAndCompany);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -279,6 +292,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
@@ -286,6 +300,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "โปรแกรมเครื่องชั่งรถบรรทุก";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -320,6 +335,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem รถคางชงToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eXITToolStripMenuItem;
+        private System.Windows.Forms.Label lblProgramIdAndCompany;
     }
 }
 
