@@ -74,7 +74,7 @@ namespace TSC403.Pages
 
             // 2. ส่งค่าทั้งหมดไปที่ฟังก์ชัน (โครงสร้างเดิม ไม่ต้องแก้ไข Class)
             OrdersDb orders = new OrdersDb();
-            DataTable dtResult = orders.SelectByQuery(dateIn, dateOut, customer, product, license_plate);
+            DataTable dtResult = orders.SelectByQuery(dateIn, dateOut, customer, product, license_plate, "Success");
 
             // 3. นำผลลัพธ์ไปแสดงผลต่อ
             if (dtResult != null)

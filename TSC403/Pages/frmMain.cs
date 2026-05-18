@@ -122,5 +122,13 @@ namespace TSC403
             frmSearch.ShowDialog();
             this.Show();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            frmCarProcess frmCarProcess = new frmCarProcess();
+            this.Hide();
+            frmCarProcess.ShowDialog();
+            this.Show();
+        }
     }
 }
