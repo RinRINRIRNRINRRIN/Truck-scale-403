@@ -74,6 +74,38 @@ namespace TSC403.Db
             return customer;
         }
 
+        public CustomerModels SelectByName(string customer_name)
+        {
+            CustomerModels customer = null;
+            try
+            {
+                using (var connection = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT customer_code, customer_name FROM customers WHERE customer_name = @customer_name;";
+                    command.Parameters.AddWithValue("@customer_name", customer_name);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            customer = new CustomerModels
+                            {
+                                CustomerCode = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                CustomerName = reader.IsDBNull(1) ? null : reader.GetString(1)
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+            }
+            return customer;
+        }
+
         // ดึงข้อมูลทั้งหมด
         public List<CustomerModels> SelectAll()
         {
