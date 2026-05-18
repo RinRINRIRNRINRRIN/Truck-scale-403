@@ -32,12 +32,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.cl_print = new System.Windows.Forms.DataGridViewButtonColumn();
             this.cl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_orderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +43,13 @@
             this.cl_netWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_product = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnPrintDailyReport = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -95,70 +96,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(1057, 470);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(80, 69);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 32);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "จำนวน";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(328, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 32);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "เที่ยว";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(574, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(133, 32);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "น้ำหนักรวม";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(873, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 32);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "กิโลกรัม";
-            // 
-            // label5
-            // 
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(174, 66);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(154, 42);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "0";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label6
-            // 
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(713, 66);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(154, 42);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "0";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label6.Click += new System.EventHandler(this.label5_Click);
             // 
             // cl_print
             // 
@@ -229,12 +166,87 @@
             this.cl_customer.Name = "cl_customer";
             this.cl_customer.ReadOnly = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(81, 48);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 32);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "จำนวน";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(329, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 32);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "เที่ยว";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(575, 48);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(133, 32);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "น้ำหนักรวม";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(874, 48);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(98, 32);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "กิโลกรัม";
+            // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(175, 45);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(154, 42);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "0";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // label6
+            // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(714, 45);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(154, 42);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "0";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label6.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // btnPrintDailyReport
+            // 
+            this.btnPrintDailyReport.Location = new System.Drawing.Point(894, 90);
+            this.btnPrintDailyReport.Name = "btnPrintDailyReport";
+            this.btnPrintDailyReport.Size = new System.Drawing.Size(163, 44);
+            this.btnPrintDailyReport.TabIndex = 10;
+            this.btnPrintDailyReport.Text = "พิมพ์รายงานรวม";
+            this.btnPrintDailyReport.UseVisualStyleBackColor = true;
+            this.btnPrintDailyReport.Click += new System.EventHandler(this.btnPrintDailyReport_Click);
+            // 
             // frmDailyReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1057, 612);
+            this.Controls.Add(this.btnPrintDailyReport);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -281,5 +293,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_netWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_product;
         private System.Windows.Forms.DataGridViewTextBoxColumn cl_customer;
+        private System.Windows.Forms.Button btnPrintDailyReport;
     }
 }
