@@ -40,13 +40,13 @@ namespace TSC403
 
             // เช็คว่าโปรแกรมหมดอายุหรือยัง
             DateTime dateCurrent = DateTime.ParseExact(SystemModels.DateCurrent, "yyyy-MM-dd", null);
-            DateTime dateExpire = DateTime.ParseExact(SystemModels.DateExpire, "yyyy-MM-dd", null);
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
             DateTime currentConvert = DateTime.Parse(currentDate);
             DateTime lastDateInSystem = DateTime.Parse(SystemModels.DateCurrent);
 
             if (SystemModels.DateExpire != "FOREVER")
             {
+            DateTime dateExpire = DateTime.ParseExact(SystemModels.DateExpire, "yyyy-MM-dd", null);
                 if (currentConvert > dateExpire)
                 {
                     MessageBox.Show("โปรแกรมหมดอายุการใช้งานแล้ว กรุณาติดต่อผู้ดูแลระบบ! \nError : " + DbContect.Err, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Warning);
