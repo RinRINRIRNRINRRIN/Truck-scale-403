@@ -37,22 +37,22 @@
             this.cbCompany = new System.Windows.Forms.CheckBox();
             this.cbLicensePlate = new System.Windows.Forms.CheckBox();
             this.gbLicensePlate = new System.Windows.Forms.GroupBox();
-            this.cbbLicensePlate = new System.Windows.Forms.ComboBox();
             this.gbCustomer = new System.Windows.Forms.GroupBox();
-            this.cbbCustomer = new System.Windows.Forms.ComboBox();
             this.gbDate = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
             this.gbProduct = new System.Windows.Forms.GroupBox();
-            this.cbbProduct = new System.Windows.Forms.ComboBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.txtLicensePlate = new System.Windows.Forms.TextBox();
+            this.txtCustomer = new System.Windows.Forms.TextBox();
+            this.txtProduct = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gbLicensePlate.SuspendLayout();
@@ -152,7 +152,7 @@
             // 
             this.gbLicensePlate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbLicensePlate.Controls.Add(this.cbbLicensePlate);
+            this.gbLicensePlate.Controls.Add(this.txtLicensePlate);
             this.gbLicensePlate.Enabled = false;
             this.gbLicensePlate.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbLicensePlate.ForeColor = System.Drawing.Color.Blue;
@@ -163,19 +163,11 @@
             this.gbLicensePlate.TabStop = false;
             this.gbLicensePlate.Text = "ทะเบียนรถ";
             // 
-            // cbbLicensePlate
-            // 
-            this.cbbLicensePlate.FormattingEnabled = true;
-            this.cbbLicensePlate.Location = new System.Drawing.Point(6, 27);
-            this.cbbLicensePlate.Name = "cbbLicensePlate";
-            this.cbbLicensePlate.Size = new System.Drawing.Size(322, 25);
-            this.cbbLicensePlate.TabIndex = 1;
-            // 
             // gbCustomer
             // 
             this.gbCustomer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbCustomer.Controls.Add(this.cbbCustomer);
+            this.gbCustomer.Controls.Add(this.txtCustomer);
             this.gbCustomer.Enabled = false;
             this.gbCustomer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbCustomer.ForeColor = System.Drawing.Color.Blue;
@@ -185,14 +177,6 @@
             this.gbCustomer.TabIndex = 8;
             this.gbCustomer.TabStop = false;
             this.gbCustomer.Text = "บริษัท";
-            // 
-            // cbbCustomer
-            // 
-            this.cbbCustomer.FormattingEnabled = true;
-            this.cbbCustomer.Location = new System.Drawing.Point(6, 24);
-            this.cbbCustomer.Name = "cbbCustomer";
-            this.cbbCustomer.Size = new System.Drawing.Size(322, 25);
-            this.cbbCustomer.TabIndex = 1;
             // 
             // gbDate
             // 
@@ -250,7 +234,7 @@
             // 
             this.gbProduct.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbProduct.Controls.Add(this.cbbProduct);
+            this.gbProduct.Controls.Add(this.txtProduct);
             this.gbProduct.Enabled = false;
             this.gbProduct.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbProduct.ForeColor = System.Drawing.Color.Blue;
@@ -260,14 +244,6 @@
             this.gbProduct.TabIndex = 8;
             this.gbProduct.TabStop = false;
             this.gbProduct.Text = "สินค้า";
-            // 
-            // cbbProduct
-            // 
-            this.cbbProduct.FormattingEnabled = true;
-            this.cbbProduct.Location = new System.Drawing.Point(6, 24);
-            this.cbbProduct.Name = "cbbProduct";
-            this.cbbProduct.Size = new System.Drawing.Size(322, 25);
-            this.cbbProduct.TabIndex = 1;
             // 
             // groupBox6
             // 
@@ -344,6 +320,27 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // txtLicensePlate
+            // 
+            this.txtLicensePlate.Location = new System.Drawing.Point(10, 24);
+            this.txtLicensePlate.Name = "txtLicensePlate";
+            this.txtLicensePlate.Size = new System.Drawing.Size(318, 25);
+            this.txtLicensePlate.TabIndex = 2;
+            // 
+            // txtCustomer
+            // 
+            this.txtCustomer.Location = new System.Drawing.Point(10, 24);
+            this.txtCustomer.Name = "txtCustomer";
+            this.txtCustomer.Size = new System.Drawing.Size(318, 25);
+            this.txtCustomer.TabIndex = 3;
+            // 
+            // txtProduct
+            // 
+            this.txtProduct.Location = new System.Drawing.Point(10, 24);
+            this.txtProduct.Name = "txtProduct";
+            this.txtProduct.Size = new System.Drawing.Size(318, 25);
+            this.txtProduct.TabIndex = 3;
+            // 
             // frmSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -362,6 +359,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -369,15 +367,19 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ทำรายงาน";
             this.Load += new System.EventHandler(this.frmSearch_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmSearch_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbLicensePlate.ResumeLayout(false);
+            this.gbLicensePlate.PerformLayout();
             this.gbCustomer.ResumeLayout(false);
+            this.gbCustomer.PerformLayout();
             this.gbDate.ResumeLayout(false);
             this.gbDate.PerformLayout();
             this.gbProduct.ResumeLayout(false);
+            this.gbProduct.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
@@ -404,12 +406,12 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.ComboBox cbbLicensePlate;
-        private System.Windows.Forms.ComboBox cbbCustomer;
-        private System.Windows.Forms.ComboBox cbbProduct;
         private System.Windows.Forms.DateTimePicker dtpStart;
         private System.Windows.Forms.DateTimePicker dtpEnd;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtLicensePlate;
+        private System.Windows.Forms.TextBox txtCustomer;
+        private System.Windows.Forms.TextBox txtProduct;
     }
 }

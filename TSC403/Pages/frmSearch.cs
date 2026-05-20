@@ -59,9 +59,9 @@ namespace TSC403.Pages
         private void btnSearch_Click(object sender, EventArgs e)
         {
             // 1. ดึงค่าและเช็คเงื่อนไขตามการติ๊ก Checkbox (ถ้าไม่ติ๊กให้เป็น null)
-            string license_plate = cbLicensePlate.Checked ? cbbLicensePlate.Text.Trim() : null;
-            string customer = cbCompany.Checked ? cbbCustomer.Text.Trim() : null;
-            string product = cbProduct.Checked ? cbbProduct.Text.Trim() : null;
+            string license_plate = cbLicensePlate.Checked ? txtLicensePlate.Text.Trim() : null;
+            string customer = cbCompany.Checked ? txtCustomer.Text.Trim() : null;
+            string product = cbProduct.Checked ? txtProduct.Text.Trim() : null;
 
             // สำหรับวันที่ ถ้าไม่ติ๊กค้นหาด้วยวันที่ ก็ส่งเป็น null ไปทั้งคู่
             string dateIn = null;
@@ -113,9 +113,10 @@ namespace TSC403.Pages
                     productName.Add(item.ProductName);
                 }
 
-                cbbProduct.AutoCompleteCustomSource = productName;
-                cbbProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                txtProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                txtProduct.AutoCompleteCustomSource = productName;
+                txtProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
 
                 // loop เช็คข้อมูลใน collection productName ว่ามีข้อมูลหรือไม่ ถ้าไม่มีให้แจ้งเตือน
                 foreach (string item in productName)
@@ -135,9 +136,9 @@ namespace TSC403.Pages
                     // กำหนดค่าให้กับ autocomplete 
                     customerName.Add(item.CustomerName);
                 }
-                cbbCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                cbbCustomer.AutoCompleteCustomSource = customerName;
+                txtCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                txtCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                txtCustomer.AutoCompleteCustomSource = customerName;
             }
 
             // กำหนดค่า autocomplete ให้กับ Combobox ป้ายทะเบียน 
@@ -151,10 +152,16 @@ namespace TSC403.Pages
                     // กำหนดค่าให้กับ autocomplete 
                     licensePlates.Add(item);
                 }
-                cbbLicensePlate.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbLicensePlate.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                cbbLicensePlate.AutoCompleteCustomSource = licensePlates;
+                txtLicensePlate.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                txtLicensePlate.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                txtLicensePlate.AutoCompleteCustomSource = licensePlates;
             }
+        }
+
+        private void frmSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F12)
+                this.Close();
         }
     }
 }
