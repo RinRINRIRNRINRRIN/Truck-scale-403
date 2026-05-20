@@ -46,6 +46,15 @@ namespace TSC403.Reports
             .FirstOrDefault(p =>
                 p.PaperName.Equals("TSC", StringComparison.OrdinalIgnoreCase));
 
+            // เช็คว่าพบกระดาษที่ต้องการหรือไม่
+            if (found == null)
+            {
+                MessageBox.Show("ไม่พบกระดาษที่ชื่อ 'TSC' กรุณาตรวจสอบการตั้งค่าปริ้นเตอร์", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+
             rptTicket.PrintOptions.PaperSize = (CDS.PaperSize)found.Kind;
             // กำหนดค่า parameter
             rptTicket.SetParameterValue("rptCompanyName", "บริษัท เมซเสอร์ (ประเทศไทย) จำกัด");
