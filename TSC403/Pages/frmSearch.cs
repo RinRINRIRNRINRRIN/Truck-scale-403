@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TSC403.Db;
+using TSC403.Models;
 using TSC403.Reports;
 
 namespace TSC403.Pages
@@ -96,6 +97,64 @@ namespace TSC403.Pages
                 MessageBox.Show("เกิดข้อผิดพลาด: " + orders.Err);
             }
 
+        }
+
+        private void frmSearch_Load(object sender, EventArgs e)
+        {
+            // กำหนดค่า autocomplete ให้กับ Combobox ต่าง ๆ เพื่อความสะดวกในการค้นหา
+            AutoCompleteStringCollection productName = new AutoCompleteStringCollection();
+            ProductDb productDb = new ProductDb();
+            List<ProductModels> products = productDb.SelectAll();
+            if (products != null)
+            {
+                foreach (ProductModels item in products)
+                {
+                    // กำหนดค่าให้กับ autocomplete 
+                    productName.Add(item.ProductName);
+                }
+
+                cbbProduct.AutoCompleteCustomSource = productName;
+                cbbProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                // loop เช็คข้อมูลใน collection productName ว่ามีข้อมูลหรือไม่ ถ้าไม่มีให้แจ้งเตือน
+                foreach (string item in productName)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+
+            // กำหนดค่า autocomplete ให้กับ Combobox ลูกค้า
+            AutoCompleteStringCollection customerName = new AutoCompleteStringCollection();
+            CustomerDb customerDb = new CustomerDb();
+            List<CustomerModels> customers = customerDb.SelectAll();
+            if (customers != null)
+            {
+                foreach (var item in customers)
+                {
+                    // กำหนดค่าให้กับ autocomplete 
+                    customerName.Add(item.CustomerName);
+                }
+                cbbCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                cbbCustomer.AutoCompleteCustomSource = customerName;
+            }
+
+            // กำหนดค่า autocomplete ให้กับ Combobox ป้ายทะเบียน 
+            AutoCompleteStringCollection licensePlates = new AutoCompleteStringCollection();
+            OrdersDb ordersDb = new OrdersDb();
+            List<string> plates = ordersDb.GetAllLicensePlate();
+            if(plates != null)
+            {
+                foreach (var item in plates)
+                {
+                    // กำหนดค่าให้กับ autocomplete 
+                    licensePlates.Add(item);
+                }
+                cbbLicensePlate.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbLicensePlate.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                cbbLicensePlate.AutoCompleteCustomSource = licensePlates;
+            }
         }
     }
 }
