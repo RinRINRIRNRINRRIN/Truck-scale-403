@@ -141,6 +141,7 @@
             this.dgv.RowTemplate.Height = 30;
             this.dgv.Size = new System.Drawing.Size(1057, 411);
             this.dgv.TabIndex = 11;
+            this.dgv.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_CellMouseClick);
             // 
             // cl_print
             // 

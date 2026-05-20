@@ -215,6 +215,27 @@ namespace TSC403.Pages
                 }
             }
         }
+
+        private void dgv_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                string clName = dgv.Columns[e.ColumnIndex].Name;
+                if (clName == "cl_print")
+                {
+                    int order_id = int.Parse(dgv.Rows[e.RowIndex].Cells["cl_id"].Value.ToString());
+                    frmShowReport frmShowReport = new frmShowReport(order_id, "TICKET", null);
+                    this.Hide();
+                    frmShowReport.ShowDialog();
+                    this.Show();
+                }
+            }
+            catch
+            {
+
+
+            }
+        }
     }
 }
 
