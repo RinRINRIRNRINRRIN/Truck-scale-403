@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using TSC403.Models;
@@ -480,6 +481,36 @@ namespace TSC403.Db
             }
             return orders;
 
+        }
+
+        public List<string> GetAllLicensePlate()
+        {
+            List<string> licensePlate;
+            try
+            {
+                using(SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+                
+                {
+                    con.Open();
+                    var command = con.CreateCommand();
+                    command.CommandText = "SELECT DISTINCT license_plate FROM orders WHERE license_plate IS NOT NULL AND status = 'Process';";
+                    licensePlate = new List<string>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!reader.IsDBNull(0))
+                                licensePlate.Add(reader.GetString(0));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return null;
+            }
+            return licensePlate; 
         }
     }
 
