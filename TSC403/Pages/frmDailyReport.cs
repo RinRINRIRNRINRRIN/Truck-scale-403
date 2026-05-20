@@ -90,5 +90,11 @@ namespace TSC403.Pages
             frmShowReport.ShowDialog();
             this.Show();
         }
+
+        private void frmDailyReport_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F12)
+                this.Close();
+        }
     }
 }

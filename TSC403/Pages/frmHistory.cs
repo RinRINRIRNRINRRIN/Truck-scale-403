@@ -236,6 +236,12 @@ namespace TSC403.Pages
 
             }
         }
+
+        private void frmHistory_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F12)
+                this.Close();
+        }
     }
 }
 
