@@ -269,7 +269,7 @@ namespace TSC403.Db
                     // กำหนดค่าจริงของ query ให้กับ command Text
                     if (!string.IsNullOrEmpty(status))
                     {
-                    query += $" AND o.status = '{status}'";
+                        query += $" AND o.status = '{status}'";
                     }
                    
                     query += " ORDER BY o.order_number DESC;";
@@ -492,8 +492,8 @@ namespace TSC403.Db
             List<string> licensePlate;
             try
             {
-                using(SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
-                
+                using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+
                 {
                     con.Open();
                     var command = con.CreateCommand();
@@ -514,8 +514,129 @@ namespace TSC403.Db
                 Err = ex.Message;
                 return null;
             }
-            return licensePlate; 
+            return licensePlate;
+        }
+
+
+        /// <summary>
+        /// สำหรับยกเลิกรายการรถที่กำลัง Process อยู่ โดยอัพเดทเฉพาะรถที่ค้างชั่งทุกรายการ
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdateCarProcesssToCancel()
+        {
+            try
+            {
+                using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    con.Open();
+                    var command = con.CreateCommand();
+                    command.CommandText = "UPDATE orders SET status = 'Cancel'" +
+                        " WHERE status = 'Process' ";
+                    command.ExecuteNonQuery();
+                }
+                ;
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// สำหรับยกเลิกรายการรถที่กำลัง Process อยู่ โดยอัพเดทเฉพาะรถที่ค้างชั่งทุกรายการ โดยค้นหาจากทะเบียนรถ
+        /// </summary>
+        /// <param name="license_plate"></param>
+        /// <returns></returns>
+        public bool UpdateCarProcesssToCancelByLicensePlate(string license_plate)
+        {
+            try
+            {
+                using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    con.Open();
+
+                    var command = con.CreateCommand();
+                    // เช็คก่อนว่ามีทะเบียนรถที่กำลัง Process อยู่หรือไม่ โดยค้นหาจากทะเบียนรถ
+                    command.CommandText = $"SELECT COUNT(*) FROM orders WHERE status = 'Process' AND license_plate = @license_plate;";
+                    command.Parameters.AddWithValue("@license_plate", license_plate);
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    if (count == 0)
+                    {
+                        Err = $"ไม่มีทะเบียนรถ {license_plate} ที่กำลัง Process อยู่";
+                        return false;
+                    }
+
+                    command.CommandText = "UPDATE orders SET status = 'Cancel'" +
+                        " WHERE status = 'Process' AND license_plate = @license_plate";
+                    command.Parameters.AddWithValue("@license_plate", license_plate);
+                    command.ExecuteNonQuery();
+                }
+                ;
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+
+        public bool GetCarProcessByDateStartAndDateEnd(string dateIn, string dateOut)
+        {
+            try
+            {
+                using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    con.Open();
+                    var command = con.CreateCommand();
+                    command.CommandText = "SELECT COUNT(*) FROM orders o " +
+                        "LEFT JOIN order_detail d_in " +
+                        "ON o.id = d_in.order_id AND d_in.weight_type = 'FIRST' " +
+                        "WHERE o.status = 'Process' AND d_in.datetimes BETWEEN @dateIn AND @dateOut;";
+                    command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
+                    command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0;
+                }
+                ;
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+        }
+
+
+        public bool UpdateCarProcessByDateStartAndDateEnd(string dateIn, string dateOut)
+        {
+            try
+            {
+                using (SqliteConnection con = new SqliteConnection(DbContect.ConnectionString))
+                {
+                    con.Open();
+                    var command = con.CreateCommand();
+                    command.CommandText = "UPDATE orders SET status = 'Cancel'" +
+                        " WHERE status = 'Process' AND id IN (" +
+                        "SELECT o.id FROM orders o " +
+                        "LEFT JOIN order_detail d_in " +
+                        "ON o.id = d_in.order_id AND d_in.weight_type = 'FIRST' " +
+                        "WHERE d_in.datetimes BETWEEN @dateIn AND @dateOut);";
+                    command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
+                    command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
+                    command.ExecuteNonQuery();
+                }
+                ;
+            }
+            catch (Exception ex)
+            {
+                Err = ex.Message;
+                return false;
+            }
+            return true;
         }
     }
-
 }
