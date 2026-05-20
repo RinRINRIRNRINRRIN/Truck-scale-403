@@ -267,7 +267,11 @@ namespace TSC403.Db
                         query += "AND  d_in.datetimes BETWEEN @dateIn AND @dateOut "; // ใช้ Parameter และใส่ชื่อคอลัมน์ให้ถูกต้อง (แก้ไขจาก 'd_in.d_in' เป็น 'd_in.datetimes')";
 
                     // กำหนดค่าจริงของ query ให้กับ command Text
+                    if (!string.IsNullOrEmpty(status))
+                    {
                     query += $" AND o.status = '{status}'";
+                    }
+                   
                     query += " ORDER BY o.order_number DESC;";
                     command.CommandText = query;
 
