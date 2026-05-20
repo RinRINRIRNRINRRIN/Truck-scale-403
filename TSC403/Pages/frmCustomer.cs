@@ -61,6 +61,13 @@ namespace TSC403.Pages
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            // เช็คค่าว่างก่อน
+            if(txtCode.Text == "" || txtName.Text == "")
+            {
+                MessageBox.Show("กรุณากรอกข้อมูลให้ครบถ้วน", "ข้อมูลไม่ครบถ้วน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }   
+
             if (checkCodeDuplicate(txtCode.Text))
             {
                 MessageBox.Show("พบข้อมูลซ้ำกรุณาตรวจสอบใหม่อีกครั้ง", "ข้อมูลซ้ำ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -106,11 +113,12 @@ namespace TSC403.Pages
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            //if (checkCodeDuplicate(txtCode.Text))
-            //{
-            //    MessageBox.Show("พบข้อมูลซ้ำกรุณาตรวจสอบใหม่อีกครั้ง", "ข้อมูลซ้ำ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return;
-            //}
+            // เช็คค่าว่างก่อน
+            if (txtCode.Text == "" || txtName.Text == "")
+            {
+                MessageBox.Show("กรุณากรอกข้อมูลให้ครบถ้วน", "ข้อมูลไม่ครบถ้วน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             // Define customer model
             CustomerModels model = new CustomerModels
