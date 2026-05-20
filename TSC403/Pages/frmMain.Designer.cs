@@ -98,62 +98,68 @@
             // ขอมลรToolStripMenuItem
             // 
             this.ขอมลรToolStripMenuItem.Name = "ขอมลรToolStripMenuItem";
-            this.ขอมลรToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ขอมลรToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ขอมลรToolStripMenuItem.Text = "ชั่ง";
+            this.ขอมลรToolStripMenuItem.Click += new System.EventHandler(this.ขอมลรToolStripMenuItem_Click);
             // 
             // รายงานวนนToolStripMenuItem
             // 
             this.รายงานวนนToolStripMenuItem.Name = "รายงานวนนToolStripMenuItem";
-            this.รายงานวนนToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.รายงานวนนToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.รายงานวนนToolStripMenuItem.Text = "รายงานวันนี้";
+            this.รายงานวนนToolStripMenuItem.Click += new System.EventHandler(this.รายงานวนนToolStripMenuItem_Click);
             // 
             // รายงานToolStripMenuItem
             // 
             this.รายงานToolStripMenuItem.Name = "รายงานToolStripMenuItem";
-            this.รายงานToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.รายงานToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.รายงานToolStripMenuItem.Text = "รายงาน";
+            this.รายงานToolStripMenuItem.Click += new System.EventHandler(this.รายงานToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // ขอมลบรษทToolStripMenuItem
             // 
             this.ขอมลบรษทToolStripMenuItem.Name = "ขอมลบรษทToolStripMenuItem";
-            this.ขอมลบรษทToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ขอมลบรษทToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ขอมลบรษทToolStripMenuItem.Text = "ข้อมูลบริษัท";
             this.ขอมลบรษทToolStripMenuItem.Click += new System.EventHandler(this.ขอมลบรษทToolStripMenuItem_Click);
             // 
             // ขอมลสนคาToolStripMenuItem
             // 
             this.ขอมลสนคาToolStripMenuItem.Name = "ขอมลสนคาToolStripMenuItem";
-            this.ขอมลสนคาToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ขอมลสนคาToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ขอมลสนคาToolStripMenuItem.Text = "ข้อมูลสินค้า";
             this.ขอมลสนคาToolStripMenuItem.Click += new System.EventHandler(this.ขอมลสนคาToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // รถคางชงToolStripMenuItem
             // 
             this.รถคางชงToolStripMenuItem.Name = "รถคางชงToolStripMenuItem";
-            this.รถคางชงToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.รถคางชงToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.รถคางชงToolStripMenuItem.Text = "รถค้างชั่ง";
+            this.รถคางชงToolStripMenuItem.Click += new System.EventHandler(this.รถคางชงToolStripMenuItem_Click);
             // 
             // eXITToolStripMenuItem
             // 
             this.eXITToolStripMenuItem.Name = "eXITToolStripMenuItem";
-            this.eXITToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.eXITToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.eXITToolStripMenuItem.Text = "EXIT";
+            this.eXITToolStripMenuItem.Click += new System.EventHandler(this.eXITToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -216,6 +222,7 @@
             this.button5.TabIndex = 9;
             this.button5.Text = "จบโปรแกรม";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // label1
             // 

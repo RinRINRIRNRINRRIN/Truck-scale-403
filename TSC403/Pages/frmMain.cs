@@ -152,13 +152,60 @@ namespace TSC403
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
+            if(e.Control && e.KeyCode == Keys.F9)
+            {
+                frmDeleteAdmin frmDeleteAdmin = new frmDeleteAdmin();
+                this.Hide();
+                frmDeleteAdmin.ShowDialog(); 
+                this.Show();
+                return;
+            }
+
             if (e.KeyCode == Keys.F9)
             {
                 frmSystemConfig frmSystemConfig = new frmSystemConfig();
                 this.Hide();
                 frmSystemConfig.ShowDialog(); ;
                 this.Show();
+                return;
             }
+            
+        }
+
+        private void รายงานวนนToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button2.PerformClick();
+        }
+
+        private void รายงานToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button3.PerformClick();
+        }
+
+        private void ขอมลรToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button1.PerformClick();
+        }
+
+        private void รถคางชงToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button4.PerformClick();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void eXITToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button5.PerformClick();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout frmAbout = new frmAbout();
+            frmAbout.ShowDialog();  
         }
     }
 }
