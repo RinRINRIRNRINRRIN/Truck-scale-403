@@ -142,6 +142,12 @@
     <Compile Include="Models\OrderModels.cs" />
     <Compile Include="Models\ProductModels.cs" />
     <Compile Include="Models\SystemModels.cs" />
+    <Compile Include="Pages\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pages\frmCarProcess.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,6 +165,12 @@
     </Compile>
     <Compile Include="Pages\frmDailyReport.Designer.cs">
       <DependentUpon>frmDailyReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\frmDeleteAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\frmDeleteAdmin.Designer.cs">
+      <DependentUpon>frmDeleteAdmin.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\frmHistory.cs">
       <SubType>Form</SubType>
@@ -248,6 +260,9 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <EmbeddedResource Include="Pages\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\frmCarProcess.resx">
       <DependentUpon>frmCarProcess.cs</DependentUpon>
     </EmbeddedResource>
@@ -256,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\frmDailyReport.resx">
       <DependentUpon>frmDailyReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\frmDeleteAdmin.resx">
+      <DependentUpon>frmDeleteAdmin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\frmHistory.resx">
       <DependentUpon>frmHistory.cs</DependentUpon>

@@ -30,14 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmWeightOutList));
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.btnSelect = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.cl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_licensePlate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_weighIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_dateIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cl_product = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSelect = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,33 +54,12 @@
             this.cl_dateIn,
             this.cl_customer,
             this.cl_product});
-            this.dgv.Location = new System.Drawing.Point(6, 65);
+            this.dgv.Location = new System.Drawing.Point(6, 33);
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
             this.dgv.Size = new System.Drawing.Size(555, 287);
             this.dgv.TabIndex = 6;
             this.dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
-            // 
-            // btnSelect
-            // 
-            this.btnSelect.Location = new System.Drawing.Point(410, 358);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(151, 37);
-            this.btnSelect.TabIndex = 7;
-            this.btnSelect.Text = "เลือกรถชั่ง";
-            this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Blue;
-            this.label1.Location = new System.Drawing.Point(200, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(163, 21);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "เลือกรายการรถชั่งออก";
             // 
             // cl_id
             // 
@@ -119,12 +98,33 @@
             this.cl_product.Name = "cl_product";
             this.cl_product.ReadOnly = true;
             // 
+            // btnSelect
+            // 
+            this.btnSelect.Location = new System.Drawing.Point(410, 326);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(151, 37);
+            this.btnSelect.TabIndex = 7;
+            this.btnSelect.Text = "เลือกรถชั่ง";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Blue;
+            this.label1.Location = new System.Drawing.Point(200, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(163, 21);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "เลือกรายการรถชั่งออก";
+            // 
             // frmWeightOutList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(568, 400);
+            this.ClientSize = new System.Drawing.Size(568, 360);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.dgv);
