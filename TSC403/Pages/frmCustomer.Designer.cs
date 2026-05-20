@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCustomer));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.cl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDel = new System.Windows.Forms.Button();
@@ -38,8 +40,6 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,6 +58,19 @@
             this.dataGridView1.Size = new System.Drawing.Size(448, 205);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
+            // 
+            // cl_code
+            // 
+            this.cl_code.HeaderText = "รหัสบริษัท";
+            this.cl_code.Name = "cl_code";
+            this.cl_code.ReadOnly = true;
+            // 
+            // cl_name
+            // 
+            this.cl_name.HeaderText = "ชื่อบริษัท";
+            this.cl_name.Name = "cl_name";
+            this.cl_name.ReadOnly = true;
+            this.cl_name.Width = 300;
             // 
             // label1
             // 
@@ -135,19 +148,6 @@
             this.label3.Size = new System.Drawing.Size(71, 21);
             this.label3.TabIndex = 4;
             this.label3.Text = "ชื่อบริษัท";
-            // 
-            // cl_code
-            // 
-            this.cl_code.HeaderText = "รหัสบริษัท";
-            this.cl_code.Name = "cl_code";
-            this.cl_code.ReadOnly = true;
-            // 
-            // cl_name
-            // 
-            this.cl_name.HeaderText = "ชื่อบริษัท";
-            this.cl_name.Name = "cl_name";
-            this.cl_name.ReadOnly = true;
-            this.cl_name.Width = 300;
             // 
             // frmCustomer
             // 

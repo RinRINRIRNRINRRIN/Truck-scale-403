@@ -139,7 +139,7 @@ namespace TSC403.Pages
                 string name = dataGridView1.Rows[e.RowIndex].Cells["cl_name"].Value.ToString();
 
                 txtCode.Text = code;
-                txtName.Text = code;
+                txtName.Text = name;
                 txtCode.Enabled = false;
 
                 btnAdd.Enabled = false;
