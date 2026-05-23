@@ -80,14 +80,14 @@ namespace TSC403.Reports
                 {
                     rptTicket.SetParameterValue("rptDateIn", thaiDateFormat);
                     rptTicket.SetParameterValue("rptTimeIn", date.ToString("HH:mm:ss"));
-                    rptTicket.SetParameterValue("rptWeightIn", orderDetail.Weight.ToString("#,###"));
+                    rptTicket.SetParameterValue("rptWeightIn", orderDetail.Weight.ToString("#,##0"));
                 }
                 if (orderDetail.WeightType == "SECOND")
                 {
 
                     rptTicket.SetParameterValue("rptDateOut", thaiDateFormat);
                     rptTicket.SetParameterValue("rptTimeOut", date.ToString("HH:mm:ss"));
-                    rptTicket.SetParameterValue("rptWeightOut", orderDetail.Weight.ToString("#,###"));
+                    rptTicket.SetParameterValue("rptWeightOut", orderDetail.Weight.ToString("#,##0"));
                 }
             }
 
@@ -124,7 +124,7 @@ namespace TSC403.Reports
                     string dates = datetimes.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
                     string times = datetimes.ToString("HH:mm:ss");
 
-                    dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
+                    dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,##0"), weightIn.ToString("#,##0"), weightOut.ToString("#,##0"), customerName, productName);
                     totalList++;
                     totalWeight += netWeight;
                 }
@@ -175,7 +175,7 @@ namespace TSC403.Reports
                     string dates = datetimes.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"));
                     string times = datetimes.ToString("HH:mm:ss");
 
-                    dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,###"), weightIn.ToString("#,###"), weightOut.ToString("#,###"), customerName, productName);
+                    dataSet1.Tables["DailyList"].Rows.Add(orderNumber, licensePlate, dates, times, netWeight.ToString("#,##0"), weightIn.ToString("#,##0"), weightOut.ToString("#,##0"), customerName, productName);
                     totalList++;
                     totalWeight += netWeight;
                 }
