@@ -568,7 +568,10 @@ namespace TSC403.Db
                         return false;
                     }
 
-                    command.CommandText = "UPDATE orders SET status = 'Cancel'" +
+                    command.Parameters.Clear();
+
+                    command.CommandText = "UPDATE orders " +
+                        "SET status = 'Cancel'" +
                         " WHERE status = 'Process' AND license_plate = @license_plate";
                     command.Parameters.AddWithValue("@license_plate", license_plate);
                     command.ExecuteNonQuery();
@@ -595,7 +598,7 @@ namespace TSC403.Db
                     command.CommandText = "SELECT COUNT(*) FROM orders o " +
                         "LEFT JOIN order_detail d_in " +
                         "ON o.id = d_in.order_id AND d_in.weight_type = 'FIRST' " +
-                        "WHERE o.status = 'Process' AND d_in.datetimes BETWEEN @dateIn AND @dateOut;";
+                        "WHERE d_in.datetimes BETWEEN @dateIn AND @dateOut;";
                     command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
                     command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
                     int count = Convert.ToInt32(command.ExecuteScalar());
@@ -619,14 +622,22 @@ namespace TSC403.Db
                 {
                     con.Open();
                     var command = con.CreateCommand();
-                    command.CommandText = "UPDATE orders SET status = 'Cancel'" +
-                        " WHERE status = 'Process' AND id IN (" +
-                        "SELECT o.id FROM orders o " +
-                        "LEFT JOIN order_detail d_in " +
-                        "ON o.id = d_in.order_id AND d_in.weight_type = 'FIRST' " +
-                        "WHERE d_in.datetimes BETWEEN @dateIn AND @dateOut);";
+
+                    // ตัด WHERE status = 'Process' ออกไป เพื่อให้มีผลกับทุกสถานะ
+                    command.CommandText = "UPDATE orders " +
+                                          "SET status = 'Cancel' " +
+                                          "WHERE id IN (" +
+                                          "  SELECT o.id " +
+                                          "  FROM orders o " +
+                                          "  LEFT JOIN order_detail d_in ON o.id = d_in.order_id " +
+                                          "  WHERE d_in.weight_type = 'FIRST' " +
+                                          "  AND d_in.datetimes BETWEEN @dateIn AND @dateOut" +
+                                          ");";
+
+                    // ผูกค่า Parameters เหมือนเดิม
                     command.Parameters.AddWithValue("@dateIn", $"{dateIn} 00:00:00");
                     command.Parameters.AddWithValue("@dateOut", $"{dateOut} 23:59:59");
+
                     command.ExecuteNonQuery();
                 }
                 ;
