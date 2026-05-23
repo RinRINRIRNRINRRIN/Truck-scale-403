@@ -46,9 +46,9 @@ namespace TSC403.Pages
                 }
 
                 // show total weight 
-                label6.Text = totalWeight.ToString("#,###");
+                label6.Text = totalWeight.ToString("#,##0");
                 // show total list
-                label5.Text = tb.Rows.Count.ToString("#,###");
+                label5.Text = tb.Rows.Count.ToString("#,##0");
             }
         }
 
