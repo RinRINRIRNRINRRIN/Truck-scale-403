@@ -47,7 +47,7 @@ namespace TSC403.Pages
             txtStationName.Text = SystemModels.StationName;
             txtAddress.Text = SystemModels.TicketAddress;
             txtPhone.Text = SystemModels.TicketPhone;
-            txtCompany.Text = SystemModels.TicketPhone;
+            txtCompany.Text = SystemModels.TicketCompany;
 
 
             cbbScale.Items.Add(SystemModels.ScaleName);
