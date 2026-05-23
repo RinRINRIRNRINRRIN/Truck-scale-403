@@ -37,9 +37,9 @@ namespace TSC403.Pages
             }
 
             // show total weight 
-            label6.Text = totalWeight.ToString("#,###");
+            label6.Text = totalWeight.ToString("#,##0");
             // show total list
-            label5.Text = _dataTable.Rows.Count.ToString("#,###");
+            label5.Text = _dataTable.Rows.Count.ToString("#,##0");
         }
 
         private void frmHistory_Load(object sender, EventArgs e)
@@ -84,7 +84,7 @@ namespace TSC403.Pages
                             worksheet.Range("A1:L1").Merge(); // ยุบรวมเซลล์แนวนอนเพื่อให้หัวข้ออยู่กึ่งกลางตาราง
 
                             // แถวที่ 3: หัวตาราง (สไตล์สีน้ำเงินเข้มตามภาพเดิม)
-                            string[] headers = { "ลำดับ", "เลขที่", "ทะเบียนรถ", "วันที่", "เวลา", "นน.รวม", "นน.รถ", "นน.สุทธิ", "บริษัท", "สินค้า", "วันที่ออก", "เวลาออก" };
+                            string[] headers = { "ลำดับ", "เลขที่", "ทะเบียนรถ", "วันที่ชั่งเข้า", "เวลาชั่งเข้า", "วันที่ออก", "เวลาออก", "นน.รวม", "นน.รถ", "นน.สุทธิ", "บริษัท", "สินค้า",  };
                             for (int i = 0; i < headers.Length; i++)
                             {
                                 var cell = worksheet.Cell(3, i + 1);
@@ -94,6 +94,7 @@ namespace TSC403.Pages
                                 cell.Style.Font.FontColor = XLColor.White;
                                 cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                 cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                
                             }
 
                             // --- [ส่วนข้อมูลจาก DataTable: พื้นที่สีฟ้า] ---
@@ -113,20 +114,22 @@ namespace TSC403.Pages
                                     worksheet.Cell(startRow, 5).Value = dtIn.ToString("HH:mm:ss");
                                 }
 
-                                // ส่วนของตัวเลขน้ำหนัก (คอลัมน์ 6, 7, 8)
-                                worksheet.Cell(startRow, 6).Value = Convert.ToDouble(row["WeightIn"] ?? 0);   // นน.รวม (น้ำหนักแรกเข้า)
-                                worksheet.Cell(startRow, 7).Value = Convert.ToDouble(row["WeightOut"] ?? 0);  // นน.รถ (น้ำหนักตอนออก)
-                                worksheet.Cell(startRow, 8).Value = Convert.ToDouble(row["NetWeight"] ?? 0);  // นน.สุทธิ (NetWeight)
-
-                                worksheet.Cell(startRow, 9).Value = row["CustomerName"]?.ToString();  // บริษัท
-                                worksheet.Cell(startRow, 10).Value = row["ProductName"]?.ToString();  // สินค้า
 
                                 // จัดการวันที่และเวลาออก (ถ้ามี)
                                 if (row["DateOut"] != DBNull.Value && DateTime.TryParse(row["DateOut"].ToString(), out DateTime dtOut))
                                 {
-                                    worksheet.Cell(startRow, 11).Value = dtOut.ToString("dd/MM/yyyy");
-                                    worksheet.Cell(startRow, 12).Value = dtOut.ToString("HH:mm:ss");
+                                    worksheet.Cell(startRow, 6).Value = dtOut.ToString("dd/MM/yyyy");
+                                    worksheet.Cell(startRow, 7).Value = dtOut.ToString("HH:mm:ss");
                                 }
+
+
+                                // ส่วนของตัวเลขน้ำหนัก (คอลัมน์ 6, 7, 8)
+                                worksheet.Cell(startRow, 8).Value = Convert.ToDouble(row["WeightIn"] ?? 0);   // นน.รวม (น้ำหนักแรกเข้า)
+                                worksheet.Cell(startRow, 9).Value = Convert.ToDouble(row["WeightOut"] ?? 0);  // นน.รถ (น้ำหนักตอนออก)
+                                worksheet.Cell(startRow, 10).Value = Convert.ToDouble(row["NetWeight"] ?? 0);  // นน.สุทธิ (NetWeight)
+
+                                worksheet.Cell(startRow, 11).Value = row["CustomerName"]?.ToString();  // บริษัท
+                                worksheet.Cell(startRow, 12).Value = row["ProductName"]?.ToString();  // สินค้า
 
                                 // ย้อมสีฟ้าอ่อนและจัดฟอร์แมตตัวเลขในพื้นที่ข้อมูล
                                 for (int col = 1; col <= 12; col++)
@@ -191,8 +194,12 @@ namespace TSC403.Pages
                                 cell.Style.Border.BottomBorder = XLBorderStyleValues.Double; // เส้นคู่แสดงผลรวมตามมาตรฐานบัญชี
                             }
 
-                            // ปรับขนาดคอลัมน์ให้ขยายพอดีตัวอักษรอัตโนมัติ
-                            worksheet.Columns().AdjustToContents();
+                            // ปรับขนาดคอลัมน์ให้ขยายพอดีตัวอักษรอัตโนมัติ// ขยายคอลัมน์ตามเนื้อหา โดยคอลัมน์ 1 ถึง 12 จะบวกความกว้างเผื่อไปอีก 4 หน่วย (Padding)
+                            for (int col = 1; col <= 12; col++)
+                            {
+                                worksheet.Column(col).AdjustToContents();
+                                worksheet.Column(col).Width += 4; // บวกเพิ่ม 4 หน่วยให้มีช่องไฟซ้ายขวา สวยงามขึ้นครับ
+                            }
 
                             // บันทึกไฟล์ไปที่โฟลเดอร์ที่ผู้ใช้เลือก
                             workbook.SaveAs(sfd.FileName);
