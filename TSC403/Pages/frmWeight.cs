@@ -61,6 +61,81 @@ namespace TSC403.Pages
             stableTicks = 0;
             stableTimer.Stop();
             btnSave.Enabled = false; // ปิดปุ่มบันทึกไว้ก่อนเสมอจนกว่าจะนิ่ง
+
+            addProductAndCustomerToCombobox();
+        }
+
+
+        void addProductAndCustomerToCombobox()
+        {
+            ProductDb productDb = new ProductDb();
+            cbbProduct.Items.Clear();
+            cbbCodeProduct.Items.Clear();
+
+            // ดึงข้อมูลสินค้าทั้งหมดจากฐานข้อมูล
+            List<ProductModels> products = productDb.SelectAll();
+            if (products != null)
+            {
+                // แยกกล่องเก็บ AutoComplete ของชื่อสินค้า และ รหัสสินค้า
+                AutoCompleteStringCollection productNames = new AutoCompleteStringCollection();
+                AutoCompleteStringCollection productCodes = new AutoCompleteStringCollection();
+
+                foreach (ProductModels product in products)
+                {
+                    // 1. เพิ่มเข้า Items (เพื่อให้กดเลือกจาก Dropdown ได้)
+                    cbbProduct.Items.Add(product.ProductName);
+                    cbbCodeProduct.Items.Add(product.ProductCode);
+
+                    // 2. เพิ่มเข้ากล่อง AutoComplete
+                    productNames.Add(product.ProductName);
+                    productCodes.Add(product.ProductCode);
+                }
+
+                // กำหนดค่า AutoComplete ให้ฝั่งสินค้า
+                cbbProduct.AutoCompleteCustomSource = productNames;
+                cbbProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                cbbCodeProduct.AutoCompleteCustomSource = productCodes;
+                cbbCodeProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbCodeProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            }
+
+            // -------------------------------------------------------------
+
+            // ดึงข้อมูลบริษัทจากตาราง company มาแสดงใน combobox
+            CustomerDb customerDb = new CustomerDb();
+            cbbCustomer.Items.Clear();
+            cbbCodeCustomer.Items.Clear();
+
+            List<CustomerModels> customers = customerDb.SelectAll();
+            if (customers != null)
+            {
+                // แยกกล่องเก็บ AutoComplete ของชื่อลูกค้า และ รหัสลูกค้า
+                AutoCompleteStringCollection customerNames = new AutoCompleteStringCollection();
+                AutoCompleteStringCollection customerCodes = new AutoCompleteStringCollection();
+
+                foreach (CustomerModels customer in customers)
+                {
+                    // 1. เพิ่มเข้า Items
+                    cbbCustomer.Items.Add(customer.CustomerName);
+                    cbbCodeCustomer.Items.Add(customer.CustomerCode);
+
+                    // 2. เพิ่มเข้ากล่อง AutoComplete
+                    customerNames.Add(customer.CustomerName);
+                    customerCodes.Add(customer.CustomerCode);
+                }
+
+                // กำหนดค่า AutoComplete ให้ฝั่งลูกค้า (เปลี่ยนจาก autoComplete เดิม เป็นตัวใหม่ที่แยกแล้ว)
+                cbbCustomer.AutoCompleteCustomSource = customerNames;
+                cbbCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                cbbCodeCustomer.AutoCompleteCustomSource = customerCodes;
+                cbbCodeCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbCodeCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            }
+
         }
 
         bool saveFirstWeight(int weight)
@@ -289,73 +364,8 @@ namespace TSC403.Pages
                 this.Close();
             }
 
-            ProductDb productDb = new ProductDb();
-            cbbProduct.Items.Clear();
-            cbbCodeProduct.Items.Clear();
+            addProductAndCustomerToCombobox();
 
-            // ดึงข้อมูลสินค้าทั้งหมดจากฐานข้อมูล
-            List<ProductModels> products = productDb.SelectAll();
-            if (products != null)
-            {
-                // แยกกล่องเก็บ AutoComplete ของชื่อสินค้า และ รหัสสินค้า
-                AutoCompleteStringCollection productNames = new AutoCompleteStringCollection();
-                AutoCompleteStringCollection productCodes = new AutoCompleteStringCollection();
-
-                foreach (ProductModels product in products)
-                {
-                    // 1. เพิ่มเข้า Items (เพื่อให้กดเลือกจาก Dropdown ได้)
-                    cbbProduct.Items.Add(product.ProductName);
-                    cbbCodeProduct.Items.Add(product.ProductCode);
-
-                    // 2. เพิ่มเข้ากล่อง AutoComplete
-                    productNames.Add(product.ProductName);
-                    productCodes.Add(product.ProductCode);
-                }
-
-                // กำหนดค่า AutoComplete ให้ฝั่งสินค้า
-                cbbProduct.AutoCompleteCustomSource = productNames;
-                cbbProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                cbbCodeProduct.AutoCompleteCustomSource = productCodes;
-                cbbCodeProduct.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbCodeProduct.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            }
-
-            // -------------------------------------------------------------
-
-            // ดึงข้อมูลบริษัทจากตาราง company มาแสดงใน combobox
-            CustomerDb customerDb = new CustomerDb();
-            cbbCustomer.Items.Clear();
-            cbbCodeCustomer.Items.Clear();
-
-            List<CustomerModels> customers = customerDb.SelectAll();
-            if (customers != null)
-            {
-                // แยกกล่องเก็บ AutoComplete ของชื่อลูกค้า และ รหัสลูกค้า
-                AutoCompleteStringCollection customerNames = new AutoCompleteStringCollection();
-                AutoCompleteStringCollection customerCodes = new AutoCompleteStringCollection();
-
-                foreach (CustomerModels customer in customers)
-                {
-                    // 1. เพิ่มเข้า Items
-                    cbbCustomer.Items.Add(customer.CustomerName);
-                    cbbCodeCustomer.Items.Add(customer.CustomerCode);
-
-                    // 2. เพิ่มเข้ากล่อง AutoComplete
-                    customerNames.Add(customer.CustomerName);
-                    customerCodes.Add(customer.CustomerCode);
-                }
-
-                // กำหนดค่า AutoComplete ให้ฝั่งลูกค้า (เปลี่ยนจาก autoComplete เดิม เป็นตัวใหม่ที่แยกแล้ว)
-                cbbCustomer.AutoCompleteCustomSource = customerNames;
-                cbbCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                cbbCodeCustomer.AutoCompleteCustomSource = customerCodes;
-                cbbCodeCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbCodeCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            }
 
             timeoutTimer.Start();
         }
@@ -375,15 +385,6 @@ namespace TSC403.Pages
                 MessageBox.Show("กรุณากรอกข้อมูลทะเบียนรถก่อนบันทึก", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            //foreach (ComboBox item in panel1.Controls.OfType<ComboBox>())
-            //{
-            //    if (item.Text == "")
-            //    {
-            //        MessageBox.Show("กรุณากรอกข้อมูลให้ครบก่อนการบันทึก", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        return;
-            //    }
-            //}
 
             // snap น้ำหนักปัจจุบัน
             int weightInt;
