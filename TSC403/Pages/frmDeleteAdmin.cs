@@ -52,6 +52,7 @@ namespace TSC403.Pages
                 foreach(string licensePlate in licensePlates)
                 {
                     autoComplete.Add(licensePlate);
+                    cbbLicensePlate.Items.Add(licensePlate);
                 }
 
                 cbbLicensePlate.AutoCompleteCustomSource = autoComplete;
@@ -187,6 +188,18 @@ namespace TSC403.Pages
 
                 
             }
+        }
+
+        private void rdbLicenseKeyIn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdbLicenseKeyIn.Checked)
+                cbbLicensePlate.Enabled = true;
+        }
+
+        private void rdbAllLicensePlate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdbAllLicensePlate.Checked)
+                cbbLicensePlate.Enabled = false;
         }
     }
 }
