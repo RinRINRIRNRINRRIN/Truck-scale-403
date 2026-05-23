@@ -376,14 +376,14 @@ namespace TSC403.Pages
                 return;
             }
 
-            foreach (ComboBox item in panel1.Controls.OfType<ComboBox>())
-            {
-                if (item.Text == "")
-                {
-                    MessageBox.Show("กรุณากรอกข้อมูลให้ครบก่อนการบันทึก", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
+            //foreach (ComboBox item in panel1.Controls.OfType<ComboBox>())
+            //{
+            //    if (item.Text == "")
+            //    {
+            //        MessageBox.Show("กรุณากรอกข้อมูลให้ครบก่อนการบันทึก", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
+            //}
 
             // snap น้ำหนักปัจจุบัน
             int weightInt;
