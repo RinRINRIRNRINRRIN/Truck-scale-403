@@ -24,11 +24,19 @@ namespace TSC403.Reports
             _orderId = orderId;
             _reportType = reportType;
             _tbForTotalReport = tbForTotalReportOrCarProcess;
+
+            // define ticket
+            companyName = SystemModels.TicketCompany;
+            companyAddress = SystemModels.TicketAddress;
+            companyPhone = SystemModels.TicketPhone;
+
+            Console.WriteLine(companyName + " " + companyAddress + " " + companyPhone);
         }
 
         private readonly int _orderId = 0;
         private readonly string _reportType;
         private readonly DataTable _tbForTotalReport;
+        private readonly string companyName, companyAddress, companyPhone;
 
         void defineParameterTicket()
         {
@@ -57,9 +65,9 @@ namespace TSC403.Reports
 
             rptTicket.PrintOptions.PaperSize = (CDS.PaperSize)found.Kind;
             // กำหนดค่า parameter
-            rptTicket.SetParameterValue("rptCompanyName", "บริษัท เมซเสอร์ (ประเทศไทย) จำกัด");
-            rptTicket.SetParameterValue("rptAddress", "44/4 หมู่ 4 ตำบลหนองชุมพล อำเภอเขาย้อย จังหวัดเพชรบุรี 76140");
-            rptTicket.SetParameterValue("rptPhone", "โทร");
+            rptTicket.SetParameterValue("rptCompanyName", companyName);
+            rptTicket.SetParameterValue("rptAddress", companyAddress);
+            rptTicket.SetParameterValue("rptPhone", companyPhone);
             rptTicket.SetParameterValue("rptLicensePlate", orderModels.LicensePlate);
             rptTicket.SetParameterValue("rptProduct", orderModels.ProductName);
             rptTicket.SetParameterValue("rptCustomer", orderModels.CustomerName);
