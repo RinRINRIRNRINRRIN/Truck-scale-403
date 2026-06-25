@@ -1,4 +1,5 @@
-﻿using CrystalDecisions.Shared;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,22 +49,22 @@ namespace TSC403.Reports
             string path = $"{Application.StartupPath}\\Reports\\rptTicket.rpt";
             rptTicket.Load(path);
 
-            PrintDocument pd = new PrintDocument();
-            System.Drawing.Printing.PaperSize found = pd.PrinterSettings.PaperSizes
-            .Cast<System.Drawing.Printing.PaperSize>()
-            .FirstOrDefault(p =>
-                p.PaperName.Equals("TSC", StringComparison.OrdinalIgnoreCase));
+            //PrintDocument pd = new PrintDocument();
+            //System.Drawing.Printing.PaperSize found = pd.PrinterSettings.PaperSizes
+            //.Cast<System.Drawing.Printing.PaperSize>()
+            //.FirstOrDefault(p =>
+            //    p.PaperName.Equals("TSC", StringComparison.OrdinalIgnoreCase));
 
-            // เช็คว่าพบกระดาษที่ต้องการหรือไม่
-            if (found == null)
-            {
-                MessageBox.Show("ไม่พบกระดาษที่ชื่อ 'TSC' กรุณาตรวจสอบการตั้งค่าปริ้นเตอร์", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-                return;
-            }
+            //// เช็คว่าพบกระดาษที่ต้องการหรือไม่
+            //if (found == null)
+            //{
+            //    MessageBox.Show("ไม่พบกระดาษที่ชื่อ 'TSC' กรุณาตรวจสอบการตั้งค่าปริ้นเตอร์", "ข้อผิดผลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    this.Close();
+            //    return;
+            //}
 
 
-            rptTicket.PrintOptions.PaperSize = (CDS.PaperSize)found.Kind;
+           // rptTicket.PrintOptions.PaperSize = (CDS.PaperSize)found.Kind;
             // กำหนดค่า parameter
             rptTicket.SetParameterValue("rptCompanyName", companyName);
             rptTicket.SetParameterValue("rptAddress", companyAddress);
@@ -205,6 +206,45 @@ namespace TSC403.Reports
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ReportDocument report = (ReportDocument)crystalReportViewer1.ReportSource;
+            if (report == null)
+            {
+                MessageBox.Show("ยังไม่ได้โหลด Report เข้า Viewer");
+                return;
+            }
+
+            // ชื่อฟอร์มกระดาษที่สร้างไว้ใน Windows
+            string customFormName = "TSC";
+
+            // ใช้ default printer (หรือระบุชื่อเครื่องพิมพ์เองก็ได้)
+            PrintDocument pd = new PrintDocument();
+            // pd.PrinterSettings.PrinterName = "ชื่อเครื่องพิมพ์ของคุณ";
+
+            // หา paper size ที่ชื่อ = TSC
+            System.Drawing.Printing.PaperSize found = pd.PrinterSettings.PaperSizes
+                .Cast<System.Drawing.Printing.PaperSize>()
+                .FirstOrDefault(p =>
+                    p.PaperName.Equals(customFormName, StringComparison.OrdinalIgnoreCase));
+
+            if (found == null)
+            {
+                MessageBox.Show($"ไม่พบฟอร์ม '{customFormName}' ในเครื่องพิมพ์ {pd.PrinterSettings.PrinterName}");
+                this.Close();
+                return;
+            }
+
+            // เซ็ตค่าให้รายงาน
+            report.PrintOptions.PrinterName = pd.PrinterSettings.PrinterName;
+            report.PrintOptions.PaperOrientation = CDS.PaperOrientation.Landscape;  // หรือ Portrait ตามต้องการ
+            report.PrintOptions.PaperSize = (CDS.PaperSize)found.RawKind;
+
+            // พิมพ์ (1 ชุด, ไม่ collate, ทุกหน้า)
+            report.PrintToPrinter(1, false, 0, 0);
+
+            this.Close();
+        }
 
         void defineCarProcess()
         {
