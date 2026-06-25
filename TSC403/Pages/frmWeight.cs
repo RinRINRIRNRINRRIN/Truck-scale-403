@@ -268,7 +268,16 @@ namespace TSC403.Pages
             if (int.TryParse(lblWeight.Text, out currentWeight))
             {
                 // 1. ตรวจสอบว่า น้ำหนักปัจจุบัน เท่ากับ น้ำหนักในวินาทีที่แล้ว หรือไม่
-                if (currentWeight == lastWeight && currentWeight >= 1000)
+                //if (currentWeight == lastWeight && currentWeight >= 1000)
+                //{
+                //    stableTicks++; // ถ้าเท่ากัน บวกรอบความนิ่งเพิ่มขึ้น 1 วิ
+                //}
+                //else
+                //{
+                //    stableTicks = 0; // ถ้าไม่เท่ากัน (น้ำหนักแกว่ง) ให้รีเซ็ตเริ่มนับ 0 ใหม่ทันที
+                //    btnSave.Enabled = false; // ปิดปุ่มบันทึกซะถ้าน้ำหนักสวิงกลับมาแกว่งอีก
+                //}
+                if (currentWeight == lastWeight)
                 {
                     stableTicks++; // ถ้าเท่ากัน บวกรอบความนิ่งเพิ่มขึ้น 1 วิ
                 }
@@ -393,12 +402,12 @@ namespace TSC403.Pages
                 return;
             }
 
-            // เช็คน้ำหนกต้องมากกว่า 1000 Kg
-            if (weightInt < 1000)
-            {
-                MessageBox.Show("น้ำหนักต้องมากกว่า 1000 Kg เป็นต้นไป", "น้ำหนักไม่ถึงตามที่กำหนด", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //// เช็คน้ำหนกต้องมากกว่า 1000 Kg
+            //if (weightInt < 1000)
+            //{
+            //    MessageBox.Show("น้ำหนักต้องมากกว่า 1000 Kg เป็นต้นไป", "น้ำหนักไม่ถึงตามที่กำหนด", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
 
             // เช็คว่าเป็น first weight or second weight
             switch (WeightState)
